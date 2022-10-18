@@ -1,0 +1,21 @@
+development:
+  client_url: <%= ENV['DEVELOPMENT_CLIENT_URL'] %>
+  server: 
+    host: <%= ENV['DEVELOPMENT_SERVER_HOST'] %>
+    protocol: <%= ENV['DEVELOPMENT_SERVER_PROTOCOL'] %>
+    url: <%= ENV['DEVELOPMENT_SERVER_URL'] %>
+
+production:
+  client_url: <%= ENV['PRODUCTION_CLIENT_URL'] %>
+  server: 
+    host: <%= ENV['PRODUCTION_SERVER_HOST'] %>
+    protocol: <%= ENV['PRODUCTION_SERVER_PROTOCOL'] %>
+    url: <%= ENV['PRODUCTION_SERVER_URL'] %>
+
+
+test:
+  client_url: <%= ENV['TEST_CLIENT_URL'] %>
+  server:
+    host: <%= ENV['TEST_SERVER_HOST'] %>
+    protocol: <%= ENV['TEST_SERVER_PROTOCOL'] %>
+    url: <%= ENV['TEST_SERVER_URL'] %>

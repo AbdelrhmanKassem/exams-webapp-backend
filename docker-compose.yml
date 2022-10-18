@@ -1,0 +1,46 @@
+version: '3.5'
+
+services:
+  exams_backend:
+    build: .
+    image: exams-backend
+    container_name: exams-backend
+    networks:
+      - exams
+    entrypoint: /app/docker-entrypoint.sh
+    command: rails server -b 0.0.0.0
+    restart: "no"
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+    tty: true
+    stdin_open: true
+    depends_on:
+      - postgresql
+    volumes:
+      - .:/app
+      - bundle:/usr/local/bundle
+      - ~/.ssh:/root/.ssh
+      - ~/.gitconfig:/root/.gitconfig
+  postgresql:
+    image: postgres
+    container_name: postgres
+    networks:
+      - exams
+    restart: "no"
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_DB: exams_backend_development
+      POSTGRES_USER: exams
+      POSTGRES_PASSWORD: exams
+    volumes:
+      - exams_backend_development:/var/lib/postgresql/data/
+volumes:
+  exams_backend_development:
+  bundle:
+networks:
+  exams:
+    name: exams
+    driver: bridge
