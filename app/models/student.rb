@@ -1,18 +1,16 @@
 class Student < ApplicationRecord
-  EMAIL_REGEX =  /\A([^-]+?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
-  PASSWORD_REGEX = /\A(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z\d])(?!.*\s).*\z/
+  EMAIL_REGEX = /\A([^-]+?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 
-  has_secure_password
+  belongs_to :school
+  has_many :grades
+
   before_validation :lowercase_email
   before_validation :lowercase_username
 
-  validates :email, :username, :first_name, :last_name, :password, presence: true
+  validates :email, :username, :full_name, :branch, :school, presence: true
   validates :email, format: { with: EMAIL_REGEX }, uniqueness: { case_sensitive: false }
   validates :username, length: { minimum: 3, maximum: 30 }, uniqueness: { case_sensitive: false }
-  validates :password, format: { with: PASSWORD_REGEX }
-  validates :password, length: { minimum: 8, maximum: 50 }
-
-  enum branch: { general: 'general', maths: 'maths', science: 'science', literature: 'literature' }, _prefix: :branch
+  enum branch: { maths: 'maths', science: 'science', literature: 'literature' }, _prefix: :branch
 
   def lowercase_email
     self.email = email.downcase if email.present?

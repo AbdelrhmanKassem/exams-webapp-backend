@@ -9,7 +9,7 @@ services:
       - exams
     entrypoint: /app/docker-entrypoint.sh
     command: rails server -b 0.0.0.0
-    restart: "no"
+    restart: unless-stopped
     env_file:
       - .env
     ports:
@@ -25,7 +25,7 @@ services:
       - ~/.gitconfig:/root/.gitconfig
   postgresql:
     image: postgres
-    container_name: postgres
+    container_name: exams_db
     networks:
       - exams
     restart: "no"
