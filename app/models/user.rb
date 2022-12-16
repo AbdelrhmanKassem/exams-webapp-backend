@@ -1,8 +1,10 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable,:recoverable, :validatable,
-         :invitable, invite_for: nil, validate_on_invite: true
+
+  include Devise::JWT::RevocationStrategies::JTIMatcher
+
+  devise :database_authenticatable, :validatable,
+         :jwt_authenticatable, jwt_revocation_strategy: self
+  devise :invitable, invite_for: nil, validate_on_invite: true
 
   has_many :exams
   EMAIL_REGEX =  /\A([^-]+?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
@@ -19,6 +21,11 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 8, maximum: 50 }
 
   enum role: { admin: 'admin', examiner: 'examiner' }
+
+  # Can be used to add something to the JWT paylaod
+  def jwt_payload
+    super.merge({ 'foo' => 'bar' })
+  end
 
   def lowercase_email
     self.email = email.downcase if email.present?
