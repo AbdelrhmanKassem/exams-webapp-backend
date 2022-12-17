@@ -97,7 +97,7 @@ Devise.setup do |config|
   # Notice that if you are skipping storage for all authentication paths, you
   # may want to disable generating routes to Devise's sessions controller by
   # passing skip: :sessions to `devise_for` in your config/routes.rb
-  config.skip_session_storage = [:http_auth]
+  config.skip_session_storage = %i[http_auth params_auth token_auth]
 
   # By default, Devise cleans up the CSRF token on authentication to
   # avoid CSRF token fixation attacks. This means that, when using AJAX
@@ -126,7 +126,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 12
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = '811dc8c4c2b793ec17042da1fed24011db65aecb2a9cfbaccee9ead314df7b0afe054c9bf9b9d42d7eead85fac5a8f74570d695a5f1cfc47851bc7070cff48f2'
+  config.pepper = Rails.application.credentials.devise[:pepper]
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -357,4 +357,15 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
+
+  config.jwt do |jwt|
+    jwt.secret = Rails.application.credentials.devise[:jwt_secret_key]
+    jwt.dispatch_requests = [
+      ['POST', %r{^users/login$}]
+    ]
+    jwt.revocation_requests = [
+      ['DELETE', %r{^users/logout$}]
+    ]
+    jwt.expiration_time = 12.hours.to_i
+  end
 end

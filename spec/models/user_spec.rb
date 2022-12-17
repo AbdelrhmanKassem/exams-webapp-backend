@@ -1,5 +1,5 @@
 require 'rails_helper'
-RSpec.describe Admin, type: :model do
+RSpec.describe User, type: :model do
   context 'Presence tests' do
     %i[username first_name last_name email role].each do |attr|
       it { is_expected.to validate_presence_of(attr) }
@@ -21,7 +21,7 @@ RSpec.describe Admin, type: :model do
   end
 
   context 'Role validation' do
-    it { should validate_inclusion_of(:role).in?(Admin.roles.keys) }
+    it { should validate_inclusion_of(:role).in?(User.roles.keys) }
     it { is_expected.to allow_value('admin').for(:role) }
   end
 end

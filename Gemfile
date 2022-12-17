@@ -44,6 +44,7 @@ gem 'ransack'
 gem 'rswag'
 gem 'devise_invitable', '~> 2.0.0'
 gem 'devise', '~> 4.8.1'
+gem 'devise-jwt', '~> 0.10.0'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -51,6 +52,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'json-schema'
+  gem "letter_opener_web", "~> 2.0.0"
   gem 'rspec-rails'
 end
 

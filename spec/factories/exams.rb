@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :exam do
-    admin
+    user
     branches { ['maths'] }
     questions { {} } 
     answers { '' }

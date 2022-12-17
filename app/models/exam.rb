@@ -1,5 +1,5 @@
 class Exam < ApplicationRecord
-  belongs_to :examiner, class_name: 'Admin'
+  belongs_to :examiner, class_name: 'User'
 
   validates :examiner, :questions, :answers, :branches, :max_grade, presence: true
   validates :branches, length: {

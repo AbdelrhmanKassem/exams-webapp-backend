@@ -31,19 +31,9 @@ Rails.application.configure do
   end
 
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :letter_opener_web
   config.action_mailer.default_options = { from: ENV.fetch('MAILER_SENDER') }
   config.action_mailer.deliver_later_queue_name = 'mailers'
-
-  config.action_mailer.smtp_settings = {
-    address: ENV.fetch('SMTP_ADDRESS'),
-    port: ENV.fetch('SMTP_PORT'),
-    domain: ENV.fetch('SMTP_DOMAIN'),
-    user_name: ENV.fetch('SMTP_USER_NAME'),
-    password: ENV.fetch('SMTP_PASSWORD'),
-    authentication: 'cram_md5',
-    # enable_starttls_auto: true
-  }
 
   config.action_mailer.default_url_options = { host: ENV.fetch('SMTP_URL') }
 
@@ -69,7 +59,6 @@ Rails.application.configure do
 
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
-
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true

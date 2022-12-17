@@ -17,6 +17,6 @@ RSpec.describe Exam, type: :model do
   end
 
   context 'Examiner Association' do
-    it { should belong_to(:examiner).class_name('Admin') }
+    it { should belong_to(:examiner).class_name('User') }
   end
 end

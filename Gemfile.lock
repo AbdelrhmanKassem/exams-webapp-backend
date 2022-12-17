@@ -84,10 +84,23 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise-jwt (0.10.0)
+      devise (~> 4.0)
+      warden-jwt_auth (~> 0.6)
     devise_invitable (2.0.6)
       actionmailer (>= 5.0)
       devise (>= 4.6)
     diff-lcs (1.5.0)
+    dry-auto_inject (0.9.0)
+      dry-container (>= 0.3.4)
+    dry-configurable (0.16.1)
+      dry-core (~> 0.6)
+      zeitwerk (~> 2.6)
+    dry-container (0.11.0)
+      concurrent-ruby (~> 1.0)
+    dry-core (0.9.1)
+      concurrent-ruby (~> 1.0)
+      zeitwerk (~> 2.6)
     erubi (1.11.0)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
@@ -105,6 +118,7 @@ GEM
       reline (>= 0.3.0)
     json-schema (2.8.1)
       addressable (>= 2.4)
+    jwt (2.5.0)
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
@@ -117,6 +131,15 @@ GEM
       activerecord
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
+    launchy (2.5.0)
+      addressable (~> 2.7)
+    letter_opener (1.8.1)
+      launchy (>= 2.2, < 3)
+    letter_opener_web (2.0.0)
+      actionmailer (>= 5.2)
+      letter_opener (~> 1.7)
+      railties (>= 5.2)
+      rexml
     loofah (2.19.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -187,6 +210,7 @@ GEM
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
+    rexml (3.2.5)
     rspec-core (3.11.0)
       rspec-support (~> 3.11.0)
     rspec-expectations (3.11.1)
@@ -225,6 +249,11 @@ GEM
       concurrent-ruby (~> 1.0)
     warden (1.2.9)
       rack (>= 2.0.9)
+    warden-jwt_auth (0.7.0)
+      dry-auto_inject (~> 0.8)
+      dry-configurable (~> 0.13)
+      jwt (~> 2.1)
+      warden (~> 1.2)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -239,11 +268,13 @@ DEPENDENCIES
   bootsnap
   debug
   devise (~> 4.8.1)
+  devise-jwt (~> 0.10.0)
   devise_invitable (~> 2.0.0)
   factory_bot_rails
   faker
   json-schema
   kaminari
+  letter_opener_web (~> 2.0.0)
   pg (~> 1.1)
   puma (~> 5.0)
   pundit
