@@ -4,26 +4,20 @@ class Users::SessionsController < Devise::SessionsController
   private
 
   def respond_with(resource, _opts = {})
-    if current_user
-      render json: {
-        status: { message: 'Logged in sucessfully.' },
-        user: UserBlueprint.render_as_hash(resource)
-      }, status: :ok
-    else
-      render json: {
-        status: { message: 'Invalid Credentials.' }
-      }, status: :unauthorized
-    end
+    render json: {
+      status: { message: I18n.t('devise.confirmations.logged_in') },
+      user: UserBlueprint.render_as_hash(resource)
+    }, status: :ok
   end
 
   def respond_to_on_destroy
     if current_user
       render json: {
-        message: 'Logged out successfully'
+        message: I18n.t('devise.confirmations.logged_out')
       }, status: :ok
     else
       render json: {
-        message: "Couldn't find an active session."
+        error: I18n.t('devise.failure.log_out')
       }, status: :unauthorized
     end
   end

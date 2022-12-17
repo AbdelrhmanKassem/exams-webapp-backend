@@ -18,6 +18,6 @@ Rails.application.routes.draw do
              },
              controllers: {
                sessions: 'users/sessions'
-             }
-
+             },
+             defaults: { format: :json }
 end

@@ -1,0 +1,63 @@
+---
+openapi: 3.0.1
+info:
+  title: Exams API
+  version: v1
+paths:
+  "/users/login":
+    post:
+      summary: Login User
+      tags:
+      - User
+      parameters: []
+      responses:
+        '200':
+          description: Success responses
+        '401':
+          description: Failed responses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/user_login_request"
+  "/users/logout":
+    delete:
+      summary: Logout user
+      security:
+      - Bearer: []
+      tags:
+      - User
+      responses:
+        '200':
+          description: Success cases
+        '401':
+          description: Failed cases
+components:
+  contentType: application/vnd.api+json
+  securitySchemes:
+    Bearer:
+      description: JWT key necessary to use API calls
+      type: apiKey
+      name: Authorization
+      in: header
+  schemas:
+    user_login_request:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            email:
+              type: string
+            password:
+              type: string
+          required:
+          - email
+          - password
+      required:
+      - user
+servers:
+- url: "{defaultHost}"
+  variables:
+    defaultHost:
+      default: http://localhost:3000
