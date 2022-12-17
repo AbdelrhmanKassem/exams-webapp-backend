@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_16_181752) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_17_205352) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,12 +51,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_16_181752) do
     t.string "username"
     t.string "full_name"
     t.string "email"
-    t.string "seat_number"
+    t.bigint "seat_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.enum "branch", enum_type: "student_branch"
     t.bigint "school_id", null: false
     t.index ["school_id"], name: "index_students_on_school_id"
+    t.index ["seat_number"], name: "index_students_on_seat_number"
   end
 
   create_table "users", force: :cascade do |t|
