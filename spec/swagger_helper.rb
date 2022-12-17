@@ -44,6 +44,38 @@ RSpec.configure do |config|
               }
             },
             required: %w[user]
+          },
+          create_user_request: {
+            type: 'object',
+            properties: {
+              user: {
+                type: 'object',
+                properties: {
+                  email: { type: 'string' },
+                  username: { type: 'string' },
+                  first_name: { type: 'string' },
+                  last_name: { type: 'string' },
+                  role: { type: 'string' }
+                },
+                required: %w[email username first_name last_name role]
+              }
+            },
+            required: %w[user]
+          },
+          accept_invitation_request: {
+            type: 'object',
+            properties: {
+              user: {
+                type: 'object',
+                properties: {
+                  password: { type: 'string' },
+                  password_confirmation: { type: 'string' },
+                  invitation_token: { type: 'string' }
+                },
+                required: %w[password password_confirmation invitation_token]
+              }
+            },
+            required: %w[user]
           }
         }
       },

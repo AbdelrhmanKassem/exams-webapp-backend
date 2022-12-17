@@ -30,4 +30,8 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  messages:
+    success: "%{operation} successfully"
+    invitation_accepted: "You have successfully accepted you invitation, you can login now"
+  errors:
+    authorization: "Unauthorized, You don't have the necessary permission for this action"

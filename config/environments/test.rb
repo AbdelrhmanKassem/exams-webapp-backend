@@ -27,6 +27,11 @@ Rails.application.configure do
   config.action_controller.perform_caching = false
   config.cache_store = :null_store
 
+  config.action_mailer.default_options = { from: ENV.fetch('MAILER_SENDER') }
+  config.action_mailer.deliver_later_queue_name = 'mailers'
+
+  config.action_mailer.default_url_options = { host: ENV.fetch('SMTP_URL') }
+
   # Raise exceptions instead of rendering exception templates.
   config.action_dispatch.show_exceptions = false
 
