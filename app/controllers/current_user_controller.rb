@@ -1,7 +1,5 @@
-class CurrentUserController < ApplicationController
-  before_action :authenticate_user!
+class CurrentUserController < AuthenticatedController
   def index
-    #render json: current_user, status: :ok
     render json: UserBlueprint.render(current_user)
   end
 end

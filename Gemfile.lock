@@ -283,6 +283,8 @@ DEPENDENCIES
   ransack
   rspec-rails
   rswag
+  rswag-api
+  rswag-ui
   shoulda-matchers (~> 5.0)
   tzinfo-data
 
