@@ -4,6 +4,46 @@ info:
   title: Exams API
   version: v1
 paths:
+  "/schools":
+    post:
+      summary: Create School
+      security:
+      - Bearer: []
+      tags:
+      - School
+      parameters: []
+      responses:
+        '201 ':
+          description: Success
+        '422':
+          description: Failed (invalid school data)
+        '401':
+          description: Failed (No auth header or not an admin)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/create_school_request"
+  "/students":
+    post:
+      summary: Create Student
+      security:
+      - Bearer: []
+      tags:
+      - Student
+      parameters: []
+      responses:
+        '201 ':
+          description: Success
+        '422':
+          description: Failed (invalid student data)
+        '401':
+          description: Failed (No auth header or not an admin)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/create_student_request"
   "/users/login":
     post:
       summary: Login User
@@ -134,6 +174,51 @@ components:
           - invitation_token
       required:
       - user
+    create_school_request:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            name:
+              type: string
+            district:
+              type: string
+            governorate:
+              type: string
+          required:
+          - name
+          - district
+          - governorate
+      required:
+      - school
+    create_student_request:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            username:
+              type: string
+            full_name:
+              type: string
+            email:
+              type: string
+            seat_number:
+              type: integer
+            branch:
+              type: string
+            school_id:
+              type: integer
+          required:
+          - username
+          - full_name
+          - email
+          - seat_number
+          - branch
+          - school_id
+      required:
+      - student
 servers:
 - url: "{defaultHost}"
   variables:

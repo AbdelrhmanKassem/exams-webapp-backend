@@ -76,6 +76,39 @@ RSpec.configure do |config|
               }
             },
             required: %w[user]
+          },
+          create_school_request: {
+            type: 'object',
+            properties: {
+              user: {
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                  district: { type: 'string' },
+                  governorate: { type: 'string' }
+                },
+                required: %w[name district governorate]
+              }
+            },
+            required: %w[school]
+          },
+          create_student_request: {
+            type: 'object',
+            properties: {
+              user: {
+                type: 'object',
+                properties: {
+                  username: { type: 'string' },
+                  full_name: { type: 'string' },
+                  email: { type: 'string' },
+                  seat_number: { type: 'integer' },
+                  branch: { type: 'string' },
+                  school_id: { type: 'integer' }
+                },
+                required: %w[username full_name email seat_number branch school_id]
+              }
+            },
+            required: %w[student]
           }
         }
       },

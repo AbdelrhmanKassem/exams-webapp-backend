@@ -1,0 +1,10 @@
+{
+    "required": ["id", "name", "district", "governorate"],
+    "type": "object",
+    "properties": {
+        "id": {"type":"integer"},
+        "name": {"type":"string"},
+        "district": {"type":"string"},
+        "governorate": {"type": "string"}
+    }
+}
