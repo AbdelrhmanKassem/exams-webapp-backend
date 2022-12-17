@@ -12,9 +12,9 @@ paths:
       parameters: []
       responses:
         '200':
-          description: Success responses
+          description: Success
         '401':
-          description: Failed responses
+          description: Failed (Incorrect Credentials)
       requestBody:
         content:
           application/json:
@@ -29,9 +29,45 @@ paths:
       - User
       responses:
         '200':
-          description: Success cases
+          description: Success
         '401':
-          description: Failed cases
+          description: Failed (Already logged out / invalid token)
+  "/users":
+    post:
+      summary: Create User
+      security:
+      - Bearer: []
+      tags:
+      - User
+      parameters: []
+      responses:
+        '201 ':
+          description: Success
+        '422':
+          description: Failed (invalid user data)
+        '401':
+          description: Failed (No auth header or not an admin)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/create_user_request"
+  "/users/accept_invite":
+    post:
+      summary: Accept user invitation
+      tags:
+      - User
+      parameters: []
+      responses:
+        '200 ':
+          description: Success
+        '422':
+          description: Failed (Invalid password, unmatching passwords, invalid token)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/accept_invitation_request"
 components:
   contentType: application/vnd.api+json
   securitySchemes:
@@ -54,6 +90,48 @@ components:
           required:
           - email
           - password
+      required:
+      - user
+    create_user_request:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            email:
+              type: string
+            username:
+              type: string
+            first_name:
+              type: string
+            last_name:
+              type: string
+            role:
+              type: string
+          required:
+          - email
+          - username
+          - first_name
+          - last_name
+          - role
+      required:
+      - user
+    accept_invitation_request:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            password:
+              type: string
+            password_confirmation:
+              type: string
+            invitation_token:
+              type: string
+          required:
+          - password
+          - password_confirmation
+          - invitation_token
       required:
       - user
 servers:

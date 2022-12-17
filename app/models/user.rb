@@ -1,12 +1,14 @@
 class User < ApplicationRecord
-
   include Devise::JWT::RevocationStrategies::JTIMatcher
+  include LiberalEnum
+
 
   devise :database_authenticatable, :validatable,
          :jwt_authenticatable, jwt_revocation_strategy: self
   devise :invitable, invite_for: nil, validate_on_invite: true
 
   has_many :exams
+
   EMAIL_REGEX =  /\A([^-]+?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
   PASSWORD_REGEX = /(?=.*[A-Za-z])(?=.*\d){8,}/
 
@@ -21,6 +23,10 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 8, maximum: 50 }
 
   enum role: { admin: 'admin', examiner: 'examiner' }
+  liberal_enum :role
+
+  validates :role, presence: true, inclusion: { in: roles.values }
+
 
   # Can be used to add something to the JWT paylaod
   def jwt_payload

@@ -1,6 +1,6 @@
 class AuthenticatedController < ApplicationController
 
-  before_action :authenticate_request
+  before_action :authenticate_request, except: %i[accept_invite]
 
   private
 
