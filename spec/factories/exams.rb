@@ -12,8 +12,8 @@
 FactoryBot.define do
   factory :exam do
     user
-    branches { ['math'] }
-    questions { {} } 
+    exam_branches
+    questions { {} }
     answers { '' }
   end
 end
