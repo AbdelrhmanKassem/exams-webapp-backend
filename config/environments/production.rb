@@ -13,7 +13,7 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local = false
 
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
   # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
@@ -56,6 +56,23 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "backend_production"
 
   config.action_mailer.perform_caching = false
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { host: ENV.fetch('SMTP_HOST') }
+  config.action_mailer.default_options = { from: ENV.fetch('MAILER_SENDER') }
+  config.action_mailer.asset_host = ENV.fetch('SMTP_HOST')
+  config.action_mailer.deliver_later_queue_name = 'mailers'
+
+  # SMTP settings for gmail
+  config.action_mailer.smtp_settings = {
+    address: ENV.fetch('SMTP_ADDRESS'),
+    port: ENV.fetch('SMTP_PORT'),
+    domain: ENV.fetch('SMTP_DOMAIN'),
+    user_name: ENV.fetch('SMTP_USER_NAME'),
+    password: ENV.fetch('SMTP_PASSWORD'),
+    authentication: 'login',
+    enable_starttls_auto: true
+  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

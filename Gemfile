@@ -38,6 +38,7 @@ gem "rack-cors"
 
 # Added Gems
 gem 'blueprinter'
+gem 'composite_primary_keys', '=14.0.4'
 gem 'devise', '~> 4.8.1'
 gem 'devise_invitable', '~> 2.0.0'
 gem 'devise-jwt', '~> 0.10.0'

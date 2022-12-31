@@ -2,17 +2,15 @@
 #
 # Table name: students
 #
-#  id          :bigint           not null, primary key
 #  username    :string
 #  full_name   :string
 #  email       :string
-#  seat_number :bigint
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  seat_number :bigint           not null, primary key
 #  branch      :enum
 #  school_id   :bigint           not null
 #
 class Student < ApplicationRecord
+  self.primary_key = 'seat_number'
   include LiberalEnum
 
   EMAIL_REGEX = /\A([^-]+?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
@@ -28,7 +26,7 @@ class Student < ApplicationRecord
   validates :email, format: { with: EMAIL_REGEX }, uniqueness: { case_sensitive: false }
   validates :seat_number, numericality: { only_numeric: true, greater_than_or_equal_to: 0}, uniqueness: true
   validates :username, length: { minimum: 3, maximum: 30 }, uniqueness: { case_sensitive: false }
-  enum branch: { maths: 'maths', science: 'science', literature: 'literature' }, _prefix: :branch
+  enum branch: { math: 'math', science: 'science', literature: 'literature' }, _prefix: :branch
 
   liberal_enum :branch
 

@@ -4,17 +4,15 @@
 #
 #  id          :bigint           not null, primary key
 #  examiner_id :bigint           not null
-#  branches    :string           default([]), is an Array
 #  questions   :json
 #  answers     :text
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  start_time  :datetime
 #  max_grade   :decimal(, )
 #
 FactoryBot.define do
   factory :exam do
     user
-    branches { ['maths'] }
+    branches { ['math'] }
     questions { {} } 
     answers { '' }
   end
