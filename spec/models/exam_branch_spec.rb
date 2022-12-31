@@ -1,3 +1,10 @@
+# == Schema Information
+#
+# Table name: exam_branches
+#
+#  exam_id :bigint           not null, primary key
+#  branch  :enum             not null, primary key
+#
 require 'rails_helper'
 
 RSpec.describe ExamBranch, type: :model do
