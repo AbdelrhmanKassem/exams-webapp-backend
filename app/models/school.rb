@@ -6,8 +6,6 @@
 #  name        :string
 #  governorate :string
 #  district    :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
 #
 class School < ApplicationRecord
   has_many :students

@@ -36,7 +36,7 @@ RSpec.describe 'students', type: :request do
             expect(response).to have_http_status(:created)
             expect(response.content_type).to include('application/json')
             expect(response).to match_response_schema('student')
-            student = Student.find_by(id: response.parsed_body['id'])
+            student = Student.find(response.parsed_body['seat_number'])
             expect(student).not_to be_nil
           end
         end

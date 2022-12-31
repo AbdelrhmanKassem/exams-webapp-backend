@@ -2,13 +2,10 @@
 #
 # Table name: students
 #
-#  id          :bigint           not null, primary key
 #  username    :string
 #  full_name   :string
 #  email       :string
-#  seat_number :bigint
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  seat_number :bigint           not null, primary key
 #  branch      :enum
 #  school_id   :bigint           not null
 #
@@ -48,7 +45,7 @@ RSpec.describe Student, type: :model do
 
   context 'Branch tests' do
     it { should validate_inclusion_of(:branch).in?(Student.branches.keys) }
-    it { is_expected.to allow_value('maths').for(:branch) }
+    it { is_expected.to allow_value('math').for(:branch) }
     it { is_expected.to allow_value('science').for(:branch) }
     it { is_expected.to allow_value('literature').for(:branch) }
   end

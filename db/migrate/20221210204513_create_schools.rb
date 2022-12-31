@@ -4,8 +4,6 @@ class CreateSchools < ActiveRecord::Migration[7.0]
       t.string :name
       t.string :governorate
       t.string :district
-
-      t.timestamps
     end
   end
 end

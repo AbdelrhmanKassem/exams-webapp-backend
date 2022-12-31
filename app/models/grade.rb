@@ -2,15 +2,14 @@
 #
 # Table name: grades
 #
-#  id         :bigint           not null, primary key
-#  student_id :bigint           not null
-#  exam_id    :bigint           not null
-#  mark       :decimal(, )
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  student_seat_number :bigint           not null, primary key
+#  exam_id             :bigint           not null, primary key
+#  mark                :decimal(, )
 #
 class Grade < ApplicationRecord
-  belongs_to :student
+  self.primary_keys = :student_seat_number, :exam_id
+  belongs_to :student, class_name: 'Student', foreign_key: 'student_seat_number'
+
   belongs_to :exam
 
   validates :student, :exam, :mark, presence: true
