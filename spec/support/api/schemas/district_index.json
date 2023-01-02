@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "required": ["districts", "meta"],
+  "properties": {
+    "districts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "governorate"],
+        "properties": {
+          "id": {"type":"integer"},
+          "name": {"type":"string"},
+          "governorate": {"type":"string"}
+
+        }
+      }
+    },
+    "meta":  {"$ref": "page_meta_data.json"}
+  }
+}

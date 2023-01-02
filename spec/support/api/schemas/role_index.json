@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "required": ["roles", "meta"],
+  "properties": {
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": {"type":"integer"},
+          "name": {"type":"string"}
+        }
+      }
+    },
+    "meta":  {"$ref": "page_meta_data.json"}
+  }
+}
