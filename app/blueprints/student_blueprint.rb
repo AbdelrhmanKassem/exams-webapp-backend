@@ -1,7 +1,8 @@
 class StudentBlueprint < Blueprinter::Base
   identifier :id
 
-  fields :username, :full_name, :email, :seat_number, :branch
+  fields :full_name, :email, :seat_number
 
   association :school, blueprint: SchoolBlueprint
+  association :branch, blueprint: BranchBlueprint
 end

@@ -14,69 +14,86 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_31_191048) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  # Custom types defined in this database.
-  # Note that some types may not work with other database engines. Be careful if changing database.
-  create_enum "student_branch", ["math", "science", "literature"]
+  create_table "branches", force: :cascade do |t|
+    t.string "name", null: false
+  end
 
-  create_table "exam_branches", primary_key: ["exam_id", "branch"], force: :cascade do |t|
+  create_table "districts", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "governorate", null: false
+    t.index ["governorate"], name: "index_districts_on_governorate"
+  end
+
+  create_table "exam_branches", primary_key: ["exam_id", "branch_id"], force: :cascade do |t|
     t.bigint "exam_id", null: false
-    t.enum "branch", null: false, enum_type: "student_branch"
+    t.bigint "branch_id", null: false
+    t.index ["branch_id"], name: "index_exam_branches_on_branch_id"
     t.index ["exam_id"], name: "index_exam_branches_on_exam_id"
   end
 
   create_table "exams", force: :cascade do |t|
     t.bigint "examiner_id", null: false
-    t.json "questions"
-    t.text "answers"
-    t.datetime "start_time"
-    t.decimal "max_grade"
+    t.datetime "start_time", null: false
+    t.datetime "end_time", null: false
+    t.decimal "max_grade", null: false
+    t.text "questions", null: false
+    t.text "answers", null: false
     t.index ["examiner_id"], name: "index_exams_on_examiner_id"
   end
 
   create_table "grades", primary_key: ["student_seat_number", "exam_id"], force: :cascade do |t|
     t.bigint "student_seat_number", null: false
     t.bigint "exam_id", null: false
-    t.decimal "mark"
+    t.decimal "mark", null: false
     t.index ["exam_id"], name: "index_grades_on_exam_id"
     t.index ["student_seat_number"], name: "index_grades_on_student_seat_number"
   end
 
+  create_table "password_reset_tokens", primary_key: "user_id", force: :cascade do |t|
+    t.string "token_hash", null: false
+    t.index ["token_hash"], name: "index_password_reset_tokens_on_token_hash"
+    t.index ["user_id"], name: "index_password_reset_tokens_on_user_id"
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "name", null: false
+  end
+
   create_table "schools", force: :cascade do |t|
-    t.string "name"
-    t.string "governorate"
-    t.string "district"
+    t.string "name", null: false
+    t.bigint "district_id", null: false
+    t.index ["district_id"], name: "index_schools_on_district_id"
   end
 
   create_table "students", primary_key: "seat_number", force: :cascade do |t|
-    t.string "username"
-    t.string "full_name"
-    t.string "email"
-    t.enum "branch", enum_type: "student_branch"
     t.bigint "school_id", null: false
+    t.bigint "branch_id", null: false
+    t.string "full_name", null: false
+    t.string "email"
+    t.index ["branch_id"], name: "index_students_on_branch_id"
     t.index ["school_id"], name: "index_students_on_school_id"
-    t.index ["seat_number"], name: "index_students_on_seat_number"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "username"
-    t.string "first_name"
-    t.string "last_name"
-    t.string "role"
+    t.bigint "role_id", null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
-    t.string "invitation_token"
-    t.datetime "invitation_created_at"
-    t.datetime "invitation_sent_at"
-    t.datetime "invitation_accepted_at"
     t.string "jti", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["jti"], name: "index_users_on_jti", unique: true
+    t.index ["role_id"], name: "index_users_on_role_id"
   end
 
+  add_foreign_key "exam_branches", "branches"
   add_foreign_key "exam_branches", "exams"
   add_foreign_key "exams", "users", column: "examiner_id"
   add_foreign_key "grades", "exams"
   add_foreign_key "grades", "students", column: "student_seat_number", primary_key: "seat_number"
+  add_foreign_key "password_reset_tokens", "users"
+  add_foreign_key "schools", "districts"
+  add_foreign_key "students", "branches"
   add_foreign_key "students", "schools"
+  add_foreign_key "users", "roles"
 end

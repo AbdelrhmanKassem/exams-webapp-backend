@@ -52,12 +52,11 @@ RSpec.configure do |config|
                 type: 'object',
                 properties: {
                   email: { type: 'string' },
-                  username: { type: 'string' },
                   first_name: { type: 'string' },
                   last_name: { type: 'string' },
-                  role: { type: 'string' }
+                  role_id: { type: 'integer' }
                 },
-                required: %w[email username first_name last_name role]
+                required: %w[email first_name last_name role_id]
               }
             },
             required: %w[user]
@@ -80,14 +79,13 @@ RSpec.configure do |config|
           create_school_request: {
             type: 'object',
             properties: {
-              user: {
+              school: {
                 type: 'object',
                 properties: {
                   name: { type: 'string' },
-                  district: { type: 'string' },
-                  governorate: { type: 'string' }
+                  district_id: { type: 'integer' },
                 },
-                required: %w[name district governorate]
+                required: %w[name district_id]
               }
             },
             required: %w[school]
@@ -95,17 +93,16 @@ RSpec.configure do |config|
           create_student_request: {
             type: 'object',
             properties: {
-              user: {
+              student: {
                 type: 'object',
                 properties: {
-                  username: { type: 'string' },
                   full_name: { type: 'string' },
                   email: { type: 'string' },
                   seat_number: { type: 'integer' },
-                  branch: { type: 'string' },
+                  branch_id: { type: 'integer' },
                   school_id: { type: 'integer' }
                 },
-                required: %w[username full_name email seat_number branch school_id]
+                required: %w[full_name email seat_number branch_id school_id]
               }
             },
             required: %w[student]

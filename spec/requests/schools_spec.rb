@@ -16,17 +16,15 @@ RSpec.describe 'schools', type: :request do
 
         response '201 ', 'Success' do
           it 'Should create school successfully and return created school object, status: 201' do
-            admin = FactoryBot.build(:user)
-            admin.role = 'admin'
-            admin.save!
+            admin = FactoryBot.create(:admin_user)
             token = Devise::JWT::TestHelpers.auth_headers('Authorization', admin)
             headers = { Authorization: token }
+            district = FactoryBot.create(:district)
             school = FactoryBot.build(:school)
             post '/schools', params: {
               school: {
                 name: school.name,
-                district: school.district,
-                governorate: school.governorate
+                district_id: district.id
               }
             }, headers: headers
             expect(response).to have_http_status(:created)
@@ -39,16 +37,13 @@ RSpec.describe 'schools', type: :request do
 
         response '422', 'Failed (invalid school data)' do
           it 'Fail due to school model validatoins' do
-            admin = FactoryBot.build(:user)
-            admin.role = 'admin'
-            admin.save!
+            admin = FactoryBot.create(:admin_user)
             token = Devise::JWT::TestHelpers.auth_headers('Authorization', admin)
             headers = { Authorization: token }
-            school = FactoryBot.build(:school)
+            district = FactoryBot.create(:district)
             post '/schools', params: {
               school: {
-                district: school.district,
-                governorate: school.governorate
+                district_id: district.id
               }
             }, headers: headers
             expect(response).to have_http_status(:unprocessable_entity)
@@ -60,17 +55,14 @@ RSpec.describe 'schools', type: :request do
 
         response '401', 'Failed (No auth header or not an admin)' do
           it 'Fail due to unauthorized user (not an admin)' do
-            not_admin = FactoryBot.build(:user)
-            not_admin.role = 'examiner'
-            not_admin.save!
+            not_admin = FactoryBot.create(:examiner_user)
             token = Devise::JWT::TestHelpers.auth_headers('Authorization', not_admin)
             headers = { Authorization: token }
             school = FactoryBot.build(:school)
             post '/schools', params: {
               school: {
                 name: school.name,
-                district: school.district,
-                governorate: school.governorate
+                district_id: 1
               }
             }, headers: headers
             expect(response).to have_http_status(:unauthorized)
@@ -85,8 +77,7 @@ RSpec.describe 'schools', type: :request do
             post '/schools', params: {
               school: {
                 name: school.name,
-                district: school.district,
-                governorate: school.governorate
+                district_id: 1
               }
             }, headers: headers
             expect(response).to have_http_status(:unauthorized)

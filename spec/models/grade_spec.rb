@@ -4,7 +4,7 @@
 #
 #  student_seat_number :bigint           not null, primary key
 #  exam_id             :bigint           not null, primary key
-#  mark                :decimal(, )
+#  mark                :decimal(, )      not null
 #
 require 'rails_helper'
 

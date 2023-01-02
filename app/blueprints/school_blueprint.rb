@@ -1,5 +1,5 @@
 class SchoolBlueprint < Blueprinter::Base
   identifier :id
-
-  fields :name, :district, :governorate
+  fields :name
+  association :district, blueprint: DistrictBlueprint
 end

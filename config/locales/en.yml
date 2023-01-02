@@ -35,3 +35,11 @@ en:
     invitation_accepted: "You have successfully accepted you invitation, you can login now"
   errors:
     authorization: "Unauthorized, You don't have the necessary permission for this action"
+    invalid_invitation: "Sorry the invitation token provided is incorrect"
+  mailers:
+    header:
+      hi: "Hi %{name},"
+    footer:
+      greetings: "Thank You,"
+    subject:
+      invitation: "Exams - Welcome to Exams"

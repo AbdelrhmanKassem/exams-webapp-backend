@@ -16,20 +16,18 @@ RSpec.describe 'students', type: :request do
 
         response '201 ', 'Success' do
           it 'Should create student successfully and return created student object, status: 201' do
-            admin = FactoryBot.build(:user)
-            admin.role = 'admin'
-            admin.save!
+            admin = FactoryBot.create(:admin_user)
             token = Devise::JWT::TestHelpers.auth_headers('Authorization', admin)
             headers = { Authorization: token }
             school = FactoryBot.create(:school)
+            branch = FactoryBot.create(:branch)
             student = FactoryBot.build(:student)
             post '/students', params: {
               student: {
-                username: student.username,
                 full_name: student.full_name,
                 email: student.email,
                 seat_number: student.seat_number,
-                branch: student.branch,
+                branch_id: branch.id,
                 school_id: school.id
               }
             }, headers: headers
@@ -43,22 +41,21 @@ RSpec.describe 'students', type: :request do
 
         response '422', 'Failed (invalid student data)' do
           it 'Fail due to student model validatoins' do
-            admin = FactoryBot.build(:user)
-            admin.role = 'admin'
-            admin.save!
+            admin = FactoryBot.create(:admin_user)
             token = Devise::JWT::TestHelpers.auth_headers('Authorization', admin)
             headers = { Authorization: token }
             school = FactoryBot.create(:school)
+            branch = FactoryBot.create(:branch)
+
             id = school.id
             school.destroy!
             student = FactoryBot.build(:student)
             post '/students', params: {
               student: {
-                username: student.username,
                 full_name: student.full_name,
                 email: student.email,
                 seat_number: student.seat_number,
-                branch: student.branch,
+                branch_id: branch.id,
                 school_id: id
               }
             }, headers: headers
@@ -71,20 +68,18 @@ RSpec.describe 'students', type: :request do
 
         response '401', 'Failed (No auth header or not an admin)' do
           it 'Fail due to unauthorized user (not an admin)' do
-            not_admin = FactoryBot.build(:user)
-            not_admin.role = 'examiner'
-            not_admin.save!
+            not_admin = FactoryBot.create(:examiner_user)
             token = Devise::JWT::TestHelpers.auth_headers('Authorization', not_admin)
             headers = { Authorization: token }
             school = FactoryBot.create(:school)
+            branch = FactoryBot.create(:branch)
             student = FactoryBot.build(:student)
             post '/students', params: {
               student: {
-                username: student.username,
                 full_name: student.full_name,
                 email: student.email,
                 seat_number: student.seat_number,
-                branch: student.branch,
+                branch_id: branch.id,
                 school_id: school.id
               }
             }, headers: headers
@@ -97,14 +92,14 @@ RSpec.describe 'students', type: :request do
           it 'Fail due to invalid Auth header' do
             headers = { Authorization: 'Invalid' }
             school = FactoryBot.create(:school)
+            branch = FactoryBot.create(:branch)
             student = FactoryBot.build(:student)
             post '/students', params: {
               student: {
-                username: student.username,
                 full_name: student.full_name,
                 email: student.email,
                 seat_number: student.seat_number,
-                branch: student.branch,
+                branch_id: branch.id,
                 school_id: school.id
               }
             }, headers: headers

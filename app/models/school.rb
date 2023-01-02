@@ -3,11 +3,13 @@
 # Table name: schools
 #
 #  id          :bigint           not null, primary key
-#  name        :string
-#  governorate :string
-#  district    :string
+#  name        :string           not null
+#  district_id :bigint           not null
 #
 class School < ApplicationRecord
   has_many :students
-  validates :name, :governorate, :district, presence: true
+
+  belongs_to :district
+
+  validates :name, presence: true
 end
