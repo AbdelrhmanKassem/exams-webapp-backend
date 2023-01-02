@@ -1,5 +1,14 @@
 class SchoolsController < AuthenticatedController
 
+  def index
+    authorize School
+    schools = School.all.page params[:page]
+    render json: {
+      schools: SchoolBlueprint.render_as_hash(schools, view: :index),
+      meta: PaginationBlueprint.render(schools)
+    }, status: :ok
+  end
+
   def create
     authorize School
     school = School.new(school_params)

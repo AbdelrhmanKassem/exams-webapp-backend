@@ -1,0 +1,14 @@
+{
+  "$id": "page_meta_data.json",
+  "type": "object",
+  "properties": {
+      "per_page":  {"type":"integer"},
+      "total_pages":  {"type":"integer"},
+      "total_count":  {"type":"integer"},
+      "current_page":  {"type":"integer"},
+      "next_page":  {"type":["integer", "null"]},
+      "prev_page":  {"type":["integer", "null"]},
+      "last_page":  {"type":"boolean"},
+      "out_of_range":  {"type":"boolean"}
+  }
+}

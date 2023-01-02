@@ -4,6 +4,57 @@ info:
   title: Exams API
   version: v1
 paths:
+  "/branches":
+    get:
+      summary: Get Branches
+      security:
+      - Bearer: []
+      tags:
+      - Branch
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200 ':
+          description: Return page of branches
+        '401':
+          description: Failed (No or invalid auth header)
+  "/districts":
+    get:
+      summary: Get Districts
+      security:
+      - Bearer: []
+      tags:
+      - District
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200 ':
+          description: Return page of districts
+        '401':
+          description: Failed (No or invalid auth header)
+  "/roles":
+    get:
+      summary: Get Roles
+      security:
+      - Bearer: []
+      tags:
+      - Role
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200 ':
+          description: Return page of roles
+        '401':
+          description: Failed (No auth header or not an admin)
   "/schools":
     post:
       summary: Create School
@@ -24,6 +75,22 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/create_school_request"
+    get:
+      summary: Get Schools
+      security:
+      - Bearer: []
+      tags:
+      - School
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200 ':
+          description: Return page of schools
+        '401':
+          description: Failed (No auth header or not an admin)
   "/students":
     post:
       summary: Create Student
