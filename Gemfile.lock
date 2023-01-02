@@ -249,9 +249,13 @@ GEM
     shoulda-matchers (5.2.0)
       activesupport (>= 5.2.0)
     thor (1.2.1)
+    timeliness (0.4.4)
     timeout (0.3.0)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
+    validates_timeliness (7.0.0.beta1)
+      activemodel (>= 7.0.0, < 8)
+      timeliness (>= 0.3.10, < 1)
     warden (1.2.9)
       rack (>= 2.0.9)
     warden-jwt_auth (0.7.0)
@@ -294,6 +298,7 @@ DEPENDENCIES
   rswag-ui
   shoulda-matchers (~> 5.0)
   tzinfo-data
+  validates_timeliness (~> 7.0.0.beta1)
 
 RUBY VERSION
    ruby 3.1.2p20

@@ -1,10 +1,9 @@
 {
-    "required": ["id", "name", "district", "governorate"],
+    "required": ["id", "name", "district"],
     "type": "object",
     "properties": {
         "id": {"type":"integer"},
         "name": {"type":"string"},
-        "district": {"type":"string"},
-        "governorate": {"type": "string"}
+        "district": {"$ref": "district.json"}
     }
 }

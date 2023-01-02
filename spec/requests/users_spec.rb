@@ -97,19 +97,17 @@ RSpec.describe 'users', type: :request do
 
         response '201 ', 'Success' do
           it 'Should create user successfully and return success message, status: 201' do
-            admin = FactoryBot.build(:user)
-            admin.role = 'admin'
-            admin.save!
+            admin = FactoryBot.create(:admin_user)
             token = Devise::JWT::TestHelpers.auth_headers('Authorization', admin)
             headers = { Authorization: token }
+            role = FactoryBot.create(:role)
             user = FactoryBot.build(:user)
             post '/users', params: {
               user: {
                 email: user.email,
-                username: user.username,
                 first_name: user.first_name,
                 last_name: user.last_name,
-                role: user.role
+                role_id: role.id
               }
             }, headers: headers
             expect(response).to have_http_status(:created)
@@ -117,50 +115,44 @@ RSpec.describe 'users', type: :request do
             expect(response.parsed_body['message']).to eq(I18n.t('messages.success', operation: 'user created'))
             user = User.find_by(email: user.email)
             expect(user).not_to be_nil
-            expect(user.invitation_token).not_to be_nil
-            expect(user.invitation_sent_at).to be < Time.current
+            expect(PasswordResetToken.find_by(user_id: user.id)).not_to be_nil
           end
         end
 
         response '422', 'Failed (invalid user data)' do
           it 'Fail due to user model validatoins' do
-            admin = FactoryBot.build(:user)
-            admin.role = 'admin'
-            admin.save!
+            admin = FactoryBot.create(:admin_user)
             token = Devise::JWT::TestHelpers.auth_headers('Authorization', admin)
             headers = { Authorization: token }
             user = FactoryBot.build(:user)
             post '/users', params: {
               user: {
                 email: user.email,
-                username: user.username,
                 first_name: user.first_name,
                 last_name: user.last_name,
-                role: 'invalid_role'
+                role_id: 55555555
               }
             }, headers: headers
             expect(response).to have_http_status(:unprocessable_entity)
             expect(response.content_type).to include('application/json')
             expect(response.parsed_body).to be_has_key('error')
-            expect(response.parsed_body['error']['role']).to include('is not included in the list')
+            expect(response.parsed_body['error']['role']).to include('must exist')
           end
         end
 
         response '401', 'Failed (No auth header or not an admin)' do
           it 'Fail due to unauthorized user (not an admin)' do
-            not_admin = FactoryBot.build(:user)
-            not_admin.role = 'examiner'
-            not_admin.save!
+            not_admin = FactoryBot.create(:examiner_user)
             token = Devise::JWT::TestHelpers.auth_headers('Authorization', not_admin)
             headers = { Authorization: token }
+            role = FactoryBot.create(:role)
             user = FactoryBot.build(:user)
             post '/users', params: {
               user: {
                 email: user.email,
-                username: user.username,
                 first_name: user.first_name,
                 last_name: user.last_name,
-                role: user.role
+                role_id: role.id
               }
             }, headers: headers
             expect(response).to have_http_status(:unauthorized)
@@ -171,14 +163,14 @@ RSpec.describe 'users', type: :request do
 
           it 'Fail due to invalid Auth header' do
             headers = { Authorization: 'Invalid' }
+            role = FactoryBot.create(:role)
             user = FactoryBot.build(:user)
             post '/users', params: {
               user: {
                 email: user.email,
-                username: user.username,
                 first_name: user.first_name,
                 last_name: user.last_name,
-                role: user.role
+                role_id: role.id
               }
             }, headers: headers
             expect(response).to have_http_status(:unauthorized)
@@ -197,12 +189,13 @@ RSpec.describe 'users', type: :request do
 
           response '200 ', 'Success' do
             it 'Should accept user successfully and set their password, status: 200' do
-              user = FactoryBot.build(:user)
-              user.save!
-              user.invite!
+              user = FactoryBot.create(:user)
+              token = SecureRandom.hex(12)
+              p = PasswordResetToken.new(user:, token_hash: Digest::SHA256.hexdigest(token))
+              p.save!
               post '/users/accept_invite', params: {
                 user: {
-                  invitation_token: user.raw_invitation_token,
+                  invitation_token: token,
                   password: 'Pas$w0rd',
                   password_confirmation: 'Pas$w0rd'
                 }
@@ -212,19 +205,19 @@ RSpec.describe 'users', type: :request do
               expect(response.parsed_body['message']).to eq(I18n.t('messages.invitation_accepted'))
               user = User.find_by(email: user.email)
               expect(user).not_to be_nil
-              expect(user.invitation_token).to be_nil
-              expect(user.invitation_accepted_at).to be < Time.current
+              expect(PasswordResetToken.find_by(user_id: user.id)).to be_nil
             end
           end
 
           response '422', 'Failed (Invalid password, unmatching passwords, invalid token)' do
             it 'Fail due to password validatoins' do
-              user = FactoryBot.build(:user)
-              user.save!
-              user.invite!
+              user = FactoryBot.create(:user)
+              token = SecureRandom.hex(12)
+              p = PasswordResetToken.new(user:, token_hash: Digest::SHA256.hexdigest(token))
+              p.save!
               post '/users/accept_invite', params: {
                 user: {
-                  invitation_token: user.raw_invitation_token,
+                  invitation_token: token,
                   password: 'Pas$w0rd',
                   password_confirmation: 'Invalid'
                 }
@@ -236,12 +229,13 @@ RSpec.describe 'users', type: :request do
             end
 
             it 'Fail due to password validatoins' do
-              user = FactoryBot.build(:user)
-              user.save!
-              user.invite!
+              user = FactoryBot.create(:user)
+              token = SecureRandom.hex(12)
+              p = PasswordResetToken.new(user:, token_hash: Digest::SHA256.hexdigest(token))
+              p.save!
               post '/users/accept_invite', params: {
                 user: {
-                  invitation_token: user.raw_invitation_token,
+                  invitation_token: token,
                   password: 'P',
                   password_confirmation: 'P'
                 }
@@ -249,12 +243,13 @@ RSpec.describe 'users', type: :request do
               expect(response).to have_http_status(:unprocessable_entity)
               expect(response.content_type).to include('application/json')
               expect(response.parsed_body).to be_has_key('error')
-              expect(response.parsed_body['error']['password'].join).to include("too short")
+              expect(response.parsed_body['error']['password'].join).to include('too short')
             end
             it 'Fail due to invalid token' do
-              user = FactoryBot.build(:user)
-              user.save!
-              user.invite!
+              user = FactoryBot.create(:user)
+              token = SecureRandom.hex(12)
+              p = PasswordResetToken.new(user:, token_hash: Digest::SHA256.hexdigest(token))
+              p.save!
               post '/users/accept_invite', params: {
                 user: {
                   invitation_token: 'Invalid',
@@ -265,7 +260,7 @@ RSpec.describe 'users', type: :request do
               expect(response).to have_http_status(:unprocessable_entity)
               expect(response.content_type).to include('application/json')
               expect(response.parsed_body).to be_has_key('error')
-              expect(response.parsed_body['error']['invitation_token'].join).to include('invalid')
+              expect(response.parsed_body['error']).to include('Sorry the invitation token provided is incorrect')
             end
           end
         end

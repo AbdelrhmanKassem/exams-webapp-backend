@@ -3,14 +3,12 @@
 # Table name: schools
 #
 #  id          :bigint           not null, primary key
-#  name        :string
-#  governorate :string
-#  district    :string
+#  name        :string           not null
+#  district_id :bigint           not null
 #
 FactoryBot.define do
   factory :school do
-    name { "MyString" }
-    governorate { "MyString" }
-    district { "MyString" }
+    name { Faker::Alphanumeric.alpha(number: rand(5..8)) }
+    district
   end
 end

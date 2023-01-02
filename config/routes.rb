@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       post 'accept_invite'
     end
   end
+
   resources :schools, only: %i[create]
   resources :students, only: %i[create]
 

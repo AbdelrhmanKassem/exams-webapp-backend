@@ -1,0 +1,9 @@
+{
+  "required": ["id", "name", "governorate"],
+  "type": "object",
+  "properties": {
+      "id": {"type":"integer"},
+      "name": {"type":"string"},
+      "governorate": {"type":"string"}
+  }
+}

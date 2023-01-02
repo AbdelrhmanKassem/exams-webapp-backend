@@ -4,27 +4,20 @@
 #
 #  id          :bigint           not null, primary key
 #  examiner_id :bigint           not null
-#  questions   :json
-#  answers     :text
-#  start_time  :datetime
-#  max_grade   :decimal(, )
+#  start_time  :datetime         not null
+#  end_time    :datetime         not null
+#  max_grade   :decimal(, )      not null
+#  questions   :text             not null
+#  answers     :text             not null
 #
 class Exam < ApplicationRecord
   belongs_to :examiner, class_name: 'User'
-
-  validates :examiner, :questions, :answers, :max_grade, :start_time, :exam_branches, presence: true
-  # validates :branches, length: {
-  #   minimum: 1,
-  #   message: 'Must select atleast one branch'
-  # }
-  validates :max_grade, numericality: { greater_than_or_equal_to: 0 }
-  # validate :valid_branches
   has_many :exam_branches
-  # def valid_branches
-  #   return unless branches.present?
+  has_many :branches, through: :exam_branches
 
-  #   branches.each do |branch|
-  #     errors.add(:branches, 'Invalid Branches Selected') unless Student.branches.include? branch
-  #   end
-  # end
+  validates :examiner, :questions, :answers, :max_grade, :start_time, :end_time, presence: true
+  validates :max_grade, numericality: { greater_than_or_equal_to: 0 }
+
+  validates_datetime :start_time, after: -> { Time.current }, on: :create
+  validates_datetime :end_time, after: :start_time
 end

@@ -2,13 +2,12 @@
 #
 # Table name: exam_branches
 #
-#  exam_id :bigint           not null, primary key
-#  branch  :enum             not null, primary key
+#  exam_id   :bigint           not null, primary key
+#  branch_id :bigint           not null, primary key
 #
 class ExamBranch < ApplicationRecord
-  include LiberalEnum
-  self.primary_keys = :exam_id, :branch
+  self.primary_keys = :exam_id, :branch_id
 
   belongs_to :exam
-  validates :branch, presence: true, inclusion: { in: Student.branches.values }
+  belongs_to :branch
 end

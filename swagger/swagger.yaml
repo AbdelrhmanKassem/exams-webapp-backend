@@ -140,20 +140,17 @@ components:
           properties:
             email:
               type: string
-            username:
-              type: string
             first_name:
               type: string
             last_name:
               type: string
-            role:
-              type: string
+            role_id:
+              type: integer
           required:
           - email
-          - username
           - first_name
           - last_name
-          - role
+          - role_id
       required:
       - user
     accept_invitation_request:
@@ -177,45 +174,39 @@ components:
     create_school_request:
       type: object
       properties:
-        user:
+        school:
           type: object
           properties:
             name:
               type: string
-            district:
-              type: string
-            governorate:
-              type: string
+            district_id:
+              type: integer
           required:
           - name
-          - district
-          - governorate
+          - district_id
       required:
       - school
     create_student_request:
       type: object
       properties:
-        user:
+        student:
           type: object
           properties:
-            username:
-              type: string
             full_name:
               type: string
             email:
               type: string
             seat_number:
               type: integer
-            branch:
-              type: string
+            branch_id:
+              type: integer
             school_id:
               type: integer
           required:
-          - username
           - full_name
           - email
           - seat_number
-          - branch
+          - branch_id
           - school_id
       required:
       - student

@@ -14,6 +14,6 @@ class SchoolsController < AuthenticatedController
   private
 
   def school_params
-    params.require(:school).permit(:name, :district, :governorate)
+    params.require(:school).permit(:name, :district_id)
   end
 end
