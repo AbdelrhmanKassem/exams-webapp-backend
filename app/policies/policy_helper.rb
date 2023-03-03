@@ -1,9 +1,9 @@
 module PolicyHelper
   def admin?
-    user.role.name == 'admin'
+    user&.role&.name == 'admin'
   end
 
   def examiner?
-    user.role.name == 'examiner'
+    user&.role&.name == 'examiner'
   end
 end

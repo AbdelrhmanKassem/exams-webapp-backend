@@ -11,6 +11,15 @@ class StudentsController < AuthenticatedController
     end
   end
 
+  def index
+    authorize Student
+    students = Student.all.page params[:page]
+    render json: {
+      students: StudentBlueprint.render_as_hash(students),
+      meta: PaginationBlueprint.render(students)
+    }, status: :ok
+  end
+
   private
 
   def student_params

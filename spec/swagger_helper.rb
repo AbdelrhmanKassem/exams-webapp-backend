@@ -106,6 +106,47 @@ RSpec.configure do |config|
               }
             },
             required: %w[student]
+          },
+          create_district_request: {
+            type: 'object',
+            properties: {
+              district: {
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                  governorate_id: { type: 'integer' }
+                },
+                required: %w[name governorate_id]
+              }
+            },
+            required: %w[district]
+          },
+          create_exam_request: {
+            type: 'object',
+            properties: {
+              exam: {
+                type: 'object',
+                properties: {
+                  start_time: { type: 'string' },
+                  end_time: { type: 'string' },
+                  max_grade: { type: 'decimal' },
+                  branches: {
+                    type: 'array',
+                    items: {
+                      type: 'object',
+                      required: %w[id],
+                      properties: {
+                        id: { type: 'integer' }
+                      }
+                    }
+                  },
+                  questions: { type: 'string' },
+                  answers: { type: 'string' }
+                },
+                required: %w[start_time end_time max_grade branches questions answers]
+              }
+            },
+            required: %w[exam]
           }
         }
       },

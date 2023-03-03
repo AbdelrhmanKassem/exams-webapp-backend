@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "required": ["exams", "meta"],
+  "properties": {
+    "exams": {
+      "type": "array",
+      "items": {
+        "required": ["id", "examiner", "start_time", "end_time", "max_grade", "branches"],
+        "type": "object",
+        "properties": {
+            "id": {"type":"integer"},
+            "examiner": {"$ref": "user.json"},
+            "start_time": {"type": "string"},
+            "end_time": {"type": "string"},
+            "max_grade": {"type": "decimal"},
+            "branches": {
+                "type": "array",
+                "items": {"$ref": "branch.json"}
+            }
+        }
+      }
+    },
+    "meta":  {"$ref": "page_meta_data.json"}
+  }
+}

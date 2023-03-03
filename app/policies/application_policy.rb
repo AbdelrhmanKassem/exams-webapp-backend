@@ -38,6 +38,7 @@ class ApplicationPolicy
   end
 
   class Scope
+    include PolicyHelper
     def initialize(user, scope)
       @user = user
       @scope = scope

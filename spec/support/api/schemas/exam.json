@@ -1,0 +1,17 @@
+{
+  "required": ["id", "examiner", "start_time", "end_time", "max_grade", "branches", "questions", "answers"],
+  "type": "object",
+  "properties": {
+      "id": {"type":"integer"},
+      "examiner": {"$ref": "user.json"},
+      "start_time": {"type": "string"},
+      "end_time": {"type": "string"},
+      "max_grade": {"type": "decimal"},
+      "branches": {
+          "type": "array",
+          "items": {"$ref": "branch.json"}
+      },
+      "questions": {"type":"string"},
+      "answers": {"type":"string"}
+  }
+}

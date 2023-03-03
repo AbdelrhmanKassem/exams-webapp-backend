@@ -24,7 +24,7 @@ services:
       - ~/.ssh:/root/.ssh
       - ~/.gitconfig:/root/.gitconfig
   postgresql:
-    image: postgres
+    image: postgres:15
     container_name: exams_db
     networks:
       - exams
