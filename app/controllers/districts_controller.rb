@@ -7,4 +7,21 @@ class DistrictsController < AuthenticatedController
       meta: PaginationBlueprint.render(districts)
     }, status: :ok
   end
+
+  def create
+    authorize District
+    district = District.new(district_params)
+
+    if district.save
+      render json: DistrictBlueprint.render(district), status: :created
+    else
+      render json: { error: district.errors.messages }, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def district_params
+    params.require(:district).permit(:name, :governorate)
+  end
 end

@@ -9,7 +9,8 @@ FactoryBot.define do
   factory :branch do
     to_create do |instance|
       instance.attributes = Branch.find_or_create_by(name: Rails.application.config.default_branches.sample).attributes
-      instance.instance_variable_set('@new_record', false)
+      instance.reload
     end
+    name { Rails.application.config.default_branches.sample }
   end
 end

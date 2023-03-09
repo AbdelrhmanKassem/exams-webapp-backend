@@ -33,6 +33,8 @@ en:
   messages:
     success: "%{operation} successfully"
     invitation_accepted: "You have successfully accepted you invitation, you can login now"
+    exam:
+      not_found: "No exam found for this ID"
   errors:
     authorization: "Unauthorized, You don't have the necessary permission for this action"
     invalid_invitation: "Sorry the invitation token provided is incorrect"

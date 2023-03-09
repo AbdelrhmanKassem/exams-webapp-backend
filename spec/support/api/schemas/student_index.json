@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "required": ["students", "meta"],
+  "properties": {
+    "students": {
+      "type": "array",
+      "items": {
+        "required": ["id", "full_name", "seat_number", "branch", "school"],
+        "type": "object",
+        "properties": {
+            "id": {"type":"integer"},
+            "full_name": {"type":"string"},
+            "email": {"type":["string", "null"]},
+            "seat_number": {"type": "integer"},
+            "branch": {"$ref": "branch.json"},
+            "school": {"$ref": "school.json"}
+        }
+      }
+    },
+    "meta":  {"$ref": "page_meta_data.json"}
+  }
+}

@@ -16,10 +16,11 @@ Rails.application.routes.draw do
   end
 
   resources :schools, only: %i[create index]
-  resources :students, only: %i[create]
+  resources :students, only: %i[create index]
   resources :roles, only: %i[index]
   resources :branches, only: %i[index]
-  resources :districts, only: %i[index]
+  resources :districts, only: %i[index create]
+  resources :exams, only: %i[index create update show]
 
   devise_for :users,
              path: 'users',

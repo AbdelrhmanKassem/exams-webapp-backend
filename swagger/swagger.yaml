@@ -38,6 +38,103 @@ paths:
           description: Return page of districts
         '401':
           description: Failed (No or invalid auth header)
+    post:
+      summary: Create Distric
+      security:
+      - Bearer: []
+      tags:
+      - District
+      parameters: []
+      responses:
+        '201 ':
+          description: Success
+        '422':
+          description: Failed (invalid district data)
+        '401':
+          description: Failed (No auth header or not an admin)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/create_district_request"
+  "/exams":
+    post:
+      summary: Create Exam
+      security:
+      - Bearer: []
+      tags:
+      - Exam
+      parameters: []
+      responses:
+        '201 ':
+          description: Success
+        '422':
+          description: Failed (invalid exam data)
+        '401':
+          description: Failed (No auth header or not an examiner)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/create_exam_request"
+    get:
+      summary: Get Exams
+      security:
+      - Bearer: []
+      tags:
+      - Exam
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200 ':
+          description: Return page of exams
+        '401':
+          description: Failed (No auth header)
+  "/exams/{id}":
+    get:
+      summary: Show Exam
+      security:
+      - Bearer: []
+      tags:
+      - Exam
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Get Exam successfully
+        '404':
+          description: Exam not found
+        '401':
+          description: Unauthorized user
+    put:
+      summary: Update exam
+      security:
+      - Bearer: []
+      tags:
+      - Exam
+      parameters:
+      - name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Update exam successfully
+        '404':
+          description: Inexistent exam with specified ID
+        '401':
+          description: Unauthorized user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/create_exam_request"
   "/roles":
     get:
       summary: Get Roles
@@ -111,6 +208,22 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/create_student_request"
+    get:
+      summary: Get Students
+      security:
+      - Bearer: []
+      tags:
+      - Student
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200 ':
+          description: Return page of students
+        '401':
+          description: Failed (No auth header or not an admin)
   "/users/login":
     post:
       summary: Login User
@@ -277,6 +390,55 @@ components:
           - school_id
       required:
       - student
+    create_district_request:
+      type: object
+      properties:
+        district:
+          type: object
+          properties:
+            name:
+              type: string
+            governorate_id:
+              type: integer
+          required:
+          - name
+          - governorate_id
+      required:
+      - district
+    create_exam_request:
+      type: object
+      properties:
+        exam:
+          type: object
+          properties:
+            start_time:
+              type: string
+            end_time:
+              type: string
+            max_grade:
+              type: decimal
+            branches:
+              type: array
+              items:
+                type: object
+                required:
+                - id
+                properties:
+                  id:
+                    type: integer
+            questions:
+              type: string
+            answers:
+              type: string
+          required:
+          - start_time
+          - end_time
+          - max_grade
+          - branches
+          - questions
+          - answers
+      required:
+      - exam
 servers:
 - url: "{defaultHost}"
   variables:

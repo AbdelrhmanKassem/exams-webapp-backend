@@ -20,4 +20,6 @@ class Exam < ApplicationRecord
 
   validates_datetime :start_time, after: -> { Time.current }, on: :create
   validates_datetime :end_time, after: :start_time
+
+  encrypts :questions, :answers
 end

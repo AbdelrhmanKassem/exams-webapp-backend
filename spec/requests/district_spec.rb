@@ -59,6 +59,85 @@ RSpec.describe 'districts', type: :request do
           end
         end
       end
+
+      post 'Create Distric' do
+        security [Bearer: []]
+        tags 'District'
+        consumes 'application/json'
+        parameter name: :district, in: :body, schema: { '$ref' => '#/components/schemas/create_district_request' }
+
+        response '201 ', 'Success' do
+          it 'Should create district successfully and return created district object, status: 201' do
+            admin = FactoryBot.create(:admin_user)
+            token = Devise::JWT::TestHelpers.auth_headers('Authorization', admin)
+            headers = { Authorization: token }
+            district = FactoryBot.build(:district)
+            post '/districts', params: {
+              district: {
+                name: district.name,
+                governorate: district.governorate
+              }
+            }, headers: headers
+            expect(response).to have_http_status(:created)
+            expect(response.content_type).to include('application/json')
+            expect(response).to match_response_schema('district')
+            district = District.find_by(id: response.parsed_body['id'])
+            expect(district).not_to be_nil
+          end
+        end
+
+        response '422', 'Failed (invalid district data)' do
+          it 'Fail due to district model validatoins' do
+            admin = FactoryBot.create(:admin_user)
+            token = Devise::JWT::TestHelpers.auth_headers('Authorization', admin)
+            headers = { Authorization: token }
+            district = FactoryBot.build(:district)
+            post '/districts', params: {
+              district: {
+                name: district.name
+              }
+            }, headers: headers
+            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response.content_type).to include('application/json')
+            expect(response.parsed_body).to be_has_key('error')
+            expect(response.parsed_body['error']).to be_has_key('governorate')
+          end
+        end
+
+        response '401', 'Failed (No auth header or not an admin)' do
+          it 'Fail due to unauthorized user (not an admin)' do
+            not_admin = FactoryBot.create(:examiner_user)
+            token = Devise::JWT::TestHelpers.auth_headers('Authorization', not_admin)
+            headers = { Authorization: token }
+            district = FactoryBot.build(:district)
+            post '/districts', params: {
+              district: {
+                name: district.name,
+                governorate: district.governorate
+              }
+            }, headers: headers
+            expect(response).to have_http_status(:unauthorized)
+            expect(response.content_type).to include('application/json')
+            expect(response.parsed_body).to be_has_key('error')
+            expect(response.parsed_body['error']).to eq(I18n.t('errors.authorization'))
+          end
+
+          it 'Fail due to invalid Auth header' do
+            headers = { Authorization: 'Invalid' }
+            district = FactoryBot.build(:district)
+            post '/districts', params: {
+              district: {
+                name: district.name,
+                governorate: district.governorate
+              }
+            }, headers: headers
+            expect(response).to have_http_status(:unauthorized)
+            expect(response.content_type).to include('application/json')
+            expect(response.parsed_body).to be_has_key('error')
+            expect(response.parsed_body['error']).to eq(I18n.t('devise.failure.unauthenticated'))
+          end
+        end
+      end
     end
   end
 end
