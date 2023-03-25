@@ -248,6 +248,7 @@ GEM
       railties (>= 3.1, < 7.1)
     shoulda-matchers (5.2.0)
       activesupport (>= 5.2.0)
+    sssecrets (1.0.0)
     thor (1.2.1)
     timeliness (0.4.4)
     timeout (0.3.0)
@@ -297,6 +298,7 @@ DEPENDENCIES
   rswag-api
   rswag-ui
   shoulda-matchers (~> 5.0)
+  sssecrets
   tzinfo-data
   validates_timeliness (~> 7.0.0.beta1)
 

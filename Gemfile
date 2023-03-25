@@ -48,6 +48,7 @@ gem 'ransack'
 gem 'rswag'
 gem 'rswag-api'
 gem 'rswag-ui'
+gem 'sssecrets'
 gem 'validates_timeliness', '~> 7.0.0.beta1'
 
 group :development, :test do

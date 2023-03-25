@@ -32,4 +32,9 @@ Rails.application.routes.draw do
                sessions: 'users/sessions'
              },
              defaults: { format: :json }
+
+
+  namespace :external do
+    get '/exam' => 'exam_service#exam'
+  end
 end
