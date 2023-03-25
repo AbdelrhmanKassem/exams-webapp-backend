@@ -26,4 +26,8 @@ class Student < ApplicationRecord
   def lowercase_email
     self.email = email.downcase if email.present?
   end
+
+  scope :school_name, ->(name) { joins(:school).where('schools.name = ?', name) }
+  scope :district_id, ->(id) { joins(:school).where('schools.district_id = ?', id) }
+  scope :branch_name, ->(name) { joins(:branch).where('branches.name = ?', name) }
 end

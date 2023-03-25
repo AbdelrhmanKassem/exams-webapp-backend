@@ -12,4 +12,7 @@ class School < ApplicationRecord
   belongs_to :district
 
   validates :name, presence: true
+
+  scope :district_name, ->(name) { joins(:district).where('districts.name = ?', name) }
+  scope :governorate, ->(name) { joins(:district).where('districts.governorate = ?', name) }
 end

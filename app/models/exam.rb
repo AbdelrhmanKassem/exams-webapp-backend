@@ -22,4 +22,6 @@ class Exam < ApplicationRecord
   validates_datetime :end_time, after: :start_time
 
   encrypts :questions, :answers
+
+  scope :branches_include, ->(id) { joins(:exam_branches).where('exam_branches.branch_id = ?', id) }
 end
