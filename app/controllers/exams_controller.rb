@@ -49,6 +49,26 @@ class ExamsController < ApplicationController
     end
   end
 
+  def generate_qr_codes
+    exam = Exam.find_by(id: params[:id])
+    if exam.nil?
+      render json: { error: I18n.t('messages.exam.not_found') }, status: :not_found if exam.nil?
+      return
+    end
+    authorize exam
+
+    response.headers['Content-Type'] = 'application/zip'
+    response.headers['Content-Disposition'] = `attachment; filename="qr_codes_exam_#{exam.id}.zip"`
+
+    qr_generator = QrCodeGenerator.new(exam)
+    temp_file = qr_generator.generate_qr_codes
+    temp_file.rewind
+    send_data temp_file.read, type: 'application/zip', disposition: 'attachment', filename: "qr_codes_exam_#{exam.id}.zip"
+
+    temp_file.close
+    temp_file.unlink
+  end
+
   private
 
   def exam_params

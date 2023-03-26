@@ -20,7 +20,11 @@ Rails.application.routes.draw do
   resources :roles, only: %i[index]
   resources :branches, only: %i[index]
   resources :districts, only: %i[index create]
-  resources :exams, only: %i[index create update show]
+  resources :exams, only: %i[index create update show] do
+    member do
+      get 'generate_qr_codes'
+    end
+  end
 
   devise_for :users,
              path: 'users',
