@@ -1,7 +1,20 @@
 class DistrictsController < AuthenticatedController
+
+  include Sift
+
+  filter_on :id, type: :int
+  filter_on :name, type: :string
+  filter_on :governorate, type: :string
+
+
+  sort_on :id, type: :int
+  sort_on :name, type: :string
+  sort_on :governorate, type: :string
+
+
   def index
     authorize District
-    districts = District.all.page params[:page]
+    districts = filtrate(District.all).page params[:page]
     render json: {
       districts: DistrictBlueprint.render_as_hash(districts),
       meta: PaginationBlueprint.render(districts)

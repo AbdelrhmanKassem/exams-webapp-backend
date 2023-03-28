@@ -1,8 +1,20 @@
 class SchoolsController < AuthenticatedController
 
+  include Sift
+
+  filter_on :id, type: :int
+  filter_on :name, type: :string
+  filter_on :district_id, type: :int
+  filter_on :district_name, type: :scope
+  filter_on :governorate, type: :scope
+
+  sort_on :id, type: :int
+  sort_on :name, type: :string
+  sort_on :district_id, type: :int
+
   def index
     authorize School
-    schools = School.all.page params[:page]
+    schools = filtrate(School.all).page params[:page]
     render json: {
       schools: SchoolBlueprint.render_as_hash(schools, view: :index),
       meta: PaginationBlueprint.render(schools)
