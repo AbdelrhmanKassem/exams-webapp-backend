@@ -12,7 +12,7 @@ class ExamPolicy < ApplicationPolicy
   end
 
   def index?
-    admin? || examiner?
+    admin? || examiner? || proctor?
   end
 
   def create?

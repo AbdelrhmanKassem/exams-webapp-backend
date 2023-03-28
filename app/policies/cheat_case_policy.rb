@@ -1,4 +1,4 @@
-class ChearCasePolicy < ApplicationPolicy
+class CheatCasePolicy < ApplicationPolicy
   def index?
     admin?
   end

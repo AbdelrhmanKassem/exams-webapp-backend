@@ -9,9 +9,11 @@
 #  max_grade   :decimal(, )      not null
 #  questions   :text             not null
 #  answers     :text             not null
+#  name        :string
 #
 FactoryBot.define do
   factory :exam do
+    name { Faker::Alphanumeric.alpha(number: rand(5..8)) }
     association :examiner, factory: :examiner_user
     factory :exam_with_branches, parent: :exam do
       branches { create_list :branch, 1 }

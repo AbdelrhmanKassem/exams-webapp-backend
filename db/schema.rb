@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_28_195016) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_28_202533) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,6 +48,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_28_195016) do
     t.decimal "max_grade", null: false
     t.text "questions", null: false
     t.text "answers", null: false
+    t.string "name"
     t.index ["examiner_id"], name: "index_exams_on_examiner_id"
   end
 
