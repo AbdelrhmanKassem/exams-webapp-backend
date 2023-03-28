@@ -26,4 +26,8 @@ FactoryBot.define do
   factory :examiner_user, parent: :user do
     role { Role.find_or_create_by(name: 'examiner') }
   end
+
+  factory :proctor_user, parent: :user do
+    role { Role.find_or_create_by(name: 'proctor') }
+  end
 end

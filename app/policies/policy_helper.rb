@@ -6,4 +6,8 @@ module PolicyHelper
   def examiner?
     user&.role&.name == 'examiner'
   end
+
+  def proctor?
+    user&.role&.name == 'proctor'
+  end
 end

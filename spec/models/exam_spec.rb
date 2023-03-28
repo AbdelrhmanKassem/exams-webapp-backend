@@ -9,12 +9,13 @@
 #  max_grade   :decimal(, )      not null
 #  questions   :text             not null
 #  answers     :text             not null
+#  name        :string
 #
 require 'rails_helper'
 
 RSpec.describe Exam, type: :model do
   context 'Presence tests' do
-    %i[examiner questions answers start_time end_time max_grade].each do |attr|
+    %i[examiner questions answers start_time end_time max_grade name].each do |attr|
       it { is_expected.to validate_presence_of(attr) }
     end
   end

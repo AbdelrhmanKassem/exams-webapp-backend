@@ -10,12 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_31_191048) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_28_202533) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "branches", force: :cascade do |t|
     t.string "name", null: false
+  end
+
+  create_table "cheat_cases", primary_key: ["student_seat_number", "exam_id"], force: :cascade do |t|
+    t.bigint "student_seat_number", null: false
+    t.bigint "exam_id", null: false
+    t.bigint "proctor_id", null: false
+    t.text "notes"
+    t.index ["exam_id"], name: "index_cheat_cases_on_exam_id"
+    t.index ["proctor_id"], name: "index_cheat_cases_on_proctor_id"
+    t.index ["student_seat_number"], name: "index_cheat_cases_on_student_seat_number"
   end
 
   create_table "districts", force: :cascade do |t|
@@ -38,6 +48,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_31_191048) do
     t.decimal "max_grade", null: false
     t.text "questions", null: false
     t.text "answers", null: false
+    t.string "name"
     t.index ["examiner_id"], name: "index_exams_on_examiner_id"
   end
 
@@ -86,6 +97,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_31_191048) do
     t.index ["role_id"], name: "index_users_on_role_id"
   end
 
+  add_foreign_key "cheat_cases", "exams"
+  add_foreign_key "cheat_cases", "students", column: "student_seat_number", primary_key: "seat_number"
+  add_foreign_key "cheat_cases", "users", column: "proctor_id"
   add_foreign_key "exam_branches", "branches"
   add_foreign_key "exam_branches", "exams"
   add_foreign_key "exams", "users", column: "examiner_id"

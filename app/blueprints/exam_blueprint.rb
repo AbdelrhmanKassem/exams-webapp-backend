@@ -1,7 +1,7 @@
 class ExamBlueprint < Blueprinter::Base
   identifier :id
 
-  fields :start_time, :end_time, :max_grade, :branches
+  fields :name, :start_time, :end_time, :max_grade, :branches
   association :examiner, blueprint: UserBlueprint
   association :branches, blueprint: BranchBlueprint
 

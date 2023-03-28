@@ -3,7 +3,9 @@ class ExamsController < ApplicationController
   include Sift
 
   filter_on :examiner_id, type: :int
+  filter_on :name, type: :string
   filter_on :branches_include, type: :scope
+  filter_on :in_progress, type: :scope
 
   sort_on :examiner_id, type: :int
   sort_on :start_time, type: :datetime
