@@ -26,4 +26,8 @@ class ExamPolicy < ApplicationPolicy
   def update?
     examiner? && record.examiner == user
   end
+
+  def generate_qr_codes?
+    admin?
+  end
 end
