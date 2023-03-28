@@ -35,9 +35,14 @@ en:
     invitation_accepted: "You have successfully accepted you invitation, you can login now"
     exam:
       not_found: "No exam found for this ID"
+      too_early: "It's too early to send this exam, try again later."
+      too_late: "It's too late to send this exam, it has already ended."
+      too_late_to_start: "It's too late to send this exam, 15 minutes have passed since it has started."
+
   errors:
     authorization: "Unauthorized, You don't have the necessary permission for this action"
     invalid_invitation: "Sorry the invitation token provided is incorrect"
+    bad_request: "Bad request, maybe missing request headers"
   mailers:
     header:
       hi: "Hi %{name},"
