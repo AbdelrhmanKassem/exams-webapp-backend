@@ -294,7 +294,6 @@ DEPENDENCIES
   blueprinter
   bootsnap
   composite_primary_keys (= 14.0.4)
-  concurrent-ruby
   debug
   devise (~> 4.8.1)
   devise-jwt (~> 0.10.0)

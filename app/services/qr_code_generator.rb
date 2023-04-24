@@ -13,14 +13,15 @@ class QrCodeGenerator
     temp_file = Tempfile.new("qr_codes_exam_#{@exam.id}.zip")
 
     # Parallelize the processing of schools
-    school_files = Parallel.map(School.all, in_threads: ActiveRecord::Base.connection_pool.db_config.pool) do |school|
+    school_files = Parallel.map(School.all, in_threads: ActiveRecord::Base.connection_pool.db_config.pool / 2) do |school|
       process_school(school)
     end.compact
 
     # Create the zip file containing all the school pdf files
-    Zip::File.open(temp_file.path, Zip::File::CREATE) do |zip|
-      school_files.each do |filename, file_path|
-        zip.add(filename, file_path)
+    Zip::OutputStream.open(temp_file.path) do |zip|
+      school_files.each do |school_file_name, pdf_file_path|
+        zip.put_next_entry(school_file_name)
+        zip.print IO.read(pdf_file_path)
       end
     end
 
@@ -77,7 +78,7 @@ class QrCodeGenerator
     qr_code = RQRCode::QRCode.new(jwt_token)
 
     # Write the QR code to the pdf
-    png = qr_code.as_png(size: 50)
+    png = qr_code.as_png(size: 300)
     pdf.start_new_page
     # Center the QR code in the page
     pdf.image StringIO.new(png.to_s), at: [pdf.bounds.width / 2 - 150, pdf.bounds.height - 150], width: 300
