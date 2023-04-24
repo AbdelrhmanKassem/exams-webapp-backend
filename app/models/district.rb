@@ -7,7 +7,8 @@
 #  governorate :string           not null
 #
 class District < ApplicationRecord
-  validates :name, :governorate, presence: true, uniqueness: { case_sensitive: false }
+  validates :name, presence: true, uniqueness: { case_sensitive: false }
+  validates :governorate, presence: true
 
   has_many :schools
 end
