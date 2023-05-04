@@ -4,7 +4,6 @@ class SchoolsController < AuthenticatedController
 
   filter_on :id, type: :int
   filter_on :name, type: :string
-  filter_on :district_id, type: :int
   filter_on :district_name, type: :scope
   filter_on :governorate, type: :scope
 
