@@ -4,8 +4,7 @@
 #
 #  id                 :bigint           not null, primary key
 #  role_id            :bigint           not null
-#  first_name         :string           not null
-#  last_name          :string           not null
+#  full_name          :string           not null
 #  email              :string           default(""), not null
 #  encrypted_password :string           default(""), not null
 #  jti                :string           not null
@@ -13,7 +12,7 @@
 require 'rails_helper'
 RSpec.describe User, type: :model do
   context 'Presence tests' do
-    %i[first_name last_name email].each do |attr|
+    %i[full_name email].each do |attr|
       it { is_expected.to validate_presence_of(attr) }
     end
   end

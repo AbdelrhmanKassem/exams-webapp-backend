@@ -23,6 +23,7 @@ RSpec.describe 'exams', type: :request do
             exam = FactoryBot.build(:exam)
             post '/exams', params: {
               exam: {
+                name: exam.name,
                 max_grade: exam.max_grade,
                 start_time: exam.start_time,
                 end_time: exam.end_time,

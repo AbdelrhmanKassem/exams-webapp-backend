@@ -3,7 +3,7 @@ class StudentsController < AuthenticatedController
   include Sift
 
   filter_on :seat_number, type: :int
-  filter_on :full_name, type: :string
+  filter_on :full_name, internal_name: :search_by_full_name, type: :scope
   filter_on :school_id, type: :int
   filter_on :branch_id, type: :int
 
@@ -12,8 +12,10 @@ class StudentsController < AuthenticatedController
   filter_on :branch_name, type: :scope
 
   sort_on :seat_number, type: :int
-  sort_on :school_id, type: :int
-  sort_on :branch_id, type: :int
+  sort_on :full_name, type: :string
+  sort_on :email, type: :string
+  sort_on :school_name, internal_name: :order_on_school_name, type: :scope, scope_params: [:direction]
+  sort_on :branch_name, internal_name: :order_on_branch_name, type: :scope, scope_params: [:direction]
 
 
   def create
@@ -31,7 +33,7 @@ class StudentsController < AuthenticatedController
     authorize Student
     students = filtrate(Student.all).page params[:page]
     render json: {
-      students: StudentBlueprint.render_as_hash(students),
+      students: StudentBlueprint.render_as_hash(students, view: :index),
       meta: PaginationBlueprint.render(students)
     }, status: :ok
   end

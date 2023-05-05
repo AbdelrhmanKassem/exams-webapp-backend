@@ -52,11 +52,10 @@ RSpec.configure do |config|
                 type: 'object',
                 properties: {
                   email: { type: 'string' },
-                  first_name: { type: 'string' },
-                  last_name: { type: 'string' },
+                  full_name: { type: 'string' },
                   role_id: { type: 'integer' }
                 },
-                required: %w[email first_name last_name role_id]
+                required: %w[email full_name role_id]
               }
             },
             required: %w[user]

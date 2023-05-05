@@ -4,8 +4,7 @@
 #
 #  id                 :bigint           not null, primary key
 #  role_id            :bigint           not null
-#  first_name         :string           not null
-#  last_name          :string           not null
+#  full_name          :string           not null
 #  email              :string           default(""), not null
 #  encrypted_password :string           default(""), not null
 #  jti                :string           not null
@@ -25,7 +24,7 @@ class User < ApplicationRecord
   before_validation :set_default_password, on: :create
   before_validation :lowercase_email
 
-  validates :email, :first_name, :last_name, :password, presence: true
+  validates :email, :full_name, :password, presence: true
   validates :email, format: { with: EMAIL_REGEX }, uniqueness: { case_sensitive: false }
   validates :password, allow_nil: true, format: { with: PASSWORD_REGEX }
   validates :password, length: { minimum: 8, maximum: 50 }
@@ -42,4 +41,14 @@ class User < ApplicationRecord
   def set_default_password
     self.password = Devise.friendly_token.first(18) + ('a'..'z').to_a.sample + ('0'..'9').to_a.sample unless password
   end
+
+  scope :search_by_email, ->(email) { where('email ILIKE ?', "%#{email}%") }
+  scope :search_by_full_name, ->(full_name) { where('full_name ILIKE ?', "%#{full_name}%") }
+
+  scope :order_on_role_name, lambda { |direction|
+    joins(:role)
+      .select('users.*, roles.name AS role_name')
+      .order("role_name #{direction}")
+  }
+
 end

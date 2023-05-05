@@ -105,8 +105,7 @@ RSpec.describe 'users', type: :request do
             post '/users', params: {
               user: {
                 email: user.email,
-                first_name: user.first_name,
-                last_name: user.last_name,
+                full_name: user.full_name,
                 role_id: role.id
               }
             }, headers: headers
@@ -128,8 +127,7 @@ RSpec.describe 'users', type: :request do
             post '/users', params: {
               user: {
                 email: user.email,
-                first_name: user.first_name,
-                last_name: user.last_name,
+                full_name: user.full_name,
                 role_id: 55555555
               }
             }, headers: headers
@@ -150,8 +148,7 @@ RSpec.describe 'users', type: :request do
             post '/users', params: {
               user: {
                 email: user.email,
-                first_name: user.first_name,
-                last_name: user.last_name,
+                full_name: user.full_name,
                 role_id: role.id
               }
             }, headers: headers
@@ -168,8 +165,7 @@ RSpec.describe 'users', type: :request do
             post '/users', params: {
               user: {
                 email: user.email,
-                first_name: user.first_name,
-                last_name: user.last_name,
+                full_name: user.full_name,
                 role_id: role.id
               }
             }, headers: headers

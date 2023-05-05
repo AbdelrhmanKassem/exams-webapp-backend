@@ -1,11 +1,10 @@
 {
-  "required": ["id", "full_name", "seat_number", "branch", "school"],
+  "required": ["seat_number", "full_name", "seat_number", "branch", "school"],
   "type": "object",
   "properties": {
-      "id": {"type":"integer"},
+      "seat_number": {"type":"integer"},
       "full_name": {"type":"string"},
       "email": {"type":["string", "null"]},
-      "seat_number": {"type": "integer"},
       "branch": {"$ref": "branch.json"},
       "school": {"$ref": "school.json"}
   }

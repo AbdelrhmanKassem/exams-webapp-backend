@@ -8,7 +8,7 @@
   </head>
 
   <body>
-    <h2><%= t("mailers.header.hi", name: @resource.first_name) %></h2>
+    <h2><%= t("mailers.header.hi", name: @resource.full_name) %></h2>
     <%= yield %>
     <p> <%= t("mailers.footer.greetings") %> </p>
     <p><%= t("mailers.footer.team_name") %></p>
