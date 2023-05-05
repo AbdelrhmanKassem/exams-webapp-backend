@@ -1,5 +1,27 @@
 class UsersController < AuthenticatedController
 
+  include Sift
+
+  filter_on :id, type: :int
+  filter_on :email, internal_name: :search_by_email, type: :scope
+  filter_on :full_name, internal_name: :search_by_full_name, type: :scope
+  filter_on :role_name, type: :scope
+
+  sort_on :id, type: :int
+  sort_on :email, type: :string
+  sort_on :full_name, type: :string
+  sort_on :role_name, internal_name: :order_on_role_name, type: :scope, scope_params: [:direction]
+
+
+  def index
+    authorize User
+    users = filtrate(User.all).page params[:page]
+    render json: {
+      users: UserBlueprint.render_as_hash(users, view: :index),
+      meta: PaginationBlueprint.render(users)
+    }, status: :ok
+  end
+
   def create
     authorize User
     user = User.new(user_params)
@@ -38,7 +60,7 @@ class UsersController < AuthenticatedController
   private
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :role_id, :email)
+    params.require(:user).permit(:full_name, :role_id, :email)
   end
 
   def accept_invite_params

@@ -6,12 +6,12 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "name", "governorate"],
+        "required": ["id", "name", "governorate", "school_count"],
         "properties": {
           "id": {"type":"integer"},
           "name": {"type":"string"},
-          "governorate": {"type":"string"}
-
+          "governorate": {"type":"string"},
+          "school_count": {"type":"integer"}
         }
       }
     },

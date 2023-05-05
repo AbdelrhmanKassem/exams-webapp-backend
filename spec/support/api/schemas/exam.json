@@ -1,8 +1,9 @@
 {
-  "required": ["id", "examiner", "start_time", "end_time", "max_grade", "branches", "questions", "answers"],
+  "required": ["id", "name", "examiner", "start_time", "end_time", "max_grade", "branches", "questions", "answers"],
   "type": "object",
   "properties": {
       "id": {"type":"integer"},
+      "name": {"type":"string"},
       "examiner": {"$ref": "user.json"},
       "start_time": {"type": "string"},
       "end_time": {"type": "string"},

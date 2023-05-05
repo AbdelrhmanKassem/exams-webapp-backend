@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   # Add app APIs below
   get '/current_user', to: 'current_user#index'
-  resources :users, only: %i[create] do
+  resources :users, only: %i[create index] do
     collection do
       post 'accept_invite'
     end

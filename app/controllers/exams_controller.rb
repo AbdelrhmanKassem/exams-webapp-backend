@@ -3,7 +3,7 @@ class ExamsController < ApplicationController
   include Sift
 
   filter_on :examiner_id, type: :int
-  filter_on :name, type: :string
+  filter_on :name, internal_name: :search_by_name, type: :scope
   filter_on :branches_include, type: :scope
   filter_on :in_progress, type: :scope
 
@@ -85,7 +85,7 @@ class ExamsController < ApplicationController
   private
 
   def exam_params
-    params.require(:exam).permit(:start_time, :end_time, :max_grade, :questions, :answers)
+    params.require(:exam).permit(:name, :start_time, :end_time, :max_grade, :questions, :answers)
   end
 
   def branch_params

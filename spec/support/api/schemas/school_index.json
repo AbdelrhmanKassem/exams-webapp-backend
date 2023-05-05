@@ -6,10 +6,13 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "name"],
+        "required": ["id", "name", "district_name", "student_count", "governorate"],
         "properties": {
           "id": {"type":"integer"},
-          "name": {"type":"string"}
+          "name": {"type":"string"},
+          "district_name": {"type":"string"},
+          "student_count": {"type":"integer"},
+          "governorate": {"type":"string"}
         }
       }
     },

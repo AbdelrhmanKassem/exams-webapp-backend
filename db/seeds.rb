@@ -13,8 +13,7 @@ roles.each { |name| Role.find_or_create_by(name:) }
 branches.each { |name| Branch.find_or_create_by(name:) }
 
 User.find_or_create_by(email: 'admin@example.com') do |admin|
-  admin.first_name = 'Admin'
-  admin.last_name = 'Admin'
+  admin.full_name = 'Admin'
   admin.password = 'Pas$w0rd'
   admin.role = Role.find_by(name: 'admin')
 end

@@ -3,13 +3,15 @@ class SchoolsController < AuthenticatedController
   include Sift
 
   filter_on :id, type: :int
-  filter_on :name, type: :string
+  filter_on :name, internal_name: :search_by_name, type: :scope
   filter_on :district_name, type: :scope
   filter_on :governorate, type: :scope
 
   sort_on :id, type: :int
   sort_on :name, type: :string
-  sort_on :district_id, type: :int
+  sort_on :district_name, internal_name: :order_on_district_name, type: :scope, scope_params: [:direction]
+  sort_on :governorate, internal_name: :order_on_governorate, type: :scope, scope_params: [:direction]
+  sort_on :student_count, internal_name: :order_on_student_count, type: :scope, scope_params: [:direction]
 
   def index
     authorize School

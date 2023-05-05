@@ -1,11 +1,10 @@
 {
-  "required": ["id", "email", "first_name", "last_name", "role"],
+  "required": ["id", "email", "full_name", "role"],
   "type": "object",
   "properties": {
       "id": {"type":"integer"},
       "email": {"type":"string"},
-      "first_name": {"type":"string"},
-      "last_name": {"type": "string"},
+      "full_name": {"type":"string"},
       "role": {"$ref": "role.json"}
   }
 }

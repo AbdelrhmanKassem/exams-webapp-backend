@@ -6,10 +6,12 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "name"],
+        "required": ["id", "name", "student_count", "exam_count"],
         "properties": {
           "id": {"type":"integer"},
-          "name": {"type":"string"}
+          "name": {"type":"string"},
+          "student_count": {"type":"integer"},
+          "exam_count": {"type":"integer"}
         }
       }
     },

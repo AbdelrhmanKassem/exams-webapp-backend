@@ -30,4 +30,18 @@ class Student < ApplicationRecord
   scope :school_name, ->(name) { joins(:school).where('schools.name = ?', name) }
   scope :district_id, ->(id) { joins(:school).where('schools.district_id = ?', id) }
   scope :branch_name, ->(name) { joins(:branch).where('branches.name = ?', name) }
+
+  scope :search_by_full_name, ->(full_name) { where('full_name ILIKE ?', "%#{full_name}%") }
+
+  scope :order_on_school_name, lambda { |direction|
+    joins(:school)
+      .select('students.*, schools.name AS school_name')
+      .order("school_name #{direction}")
+  }
+
+  scope :order_on_branch_name, lambda { |direction|
+    joins(:branch)
+      .select('students.*, branches.name AS branch_name')
+      .order("branch_name #{direction}")
+  }
 end
