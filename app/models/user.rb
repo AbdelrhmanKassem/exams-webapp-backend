@@ -44,6 +44,7 @@ class User < ApplicationRecord
 
   scope :search_by_email, ->(email) { where('email ILIKE ?', "%#{email}%") }
   scope :search_by_full_name, ->(full_name) { where('full_name ILIKE ?', "%#{full_name}%") }
+  scope :role_name, ->(name) { joins(:role).where('roles.name = ?', name) }
 
   scope :order_on_role_name, lambda { |direction|
     joins(:role)

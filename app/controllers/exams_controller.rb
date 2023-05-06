@@ -2,12 +2,14 @@ class ExamsController < ApplicationController
 
   include Sift
 
-  filter_on :examiner_id, type: :int
+  filter_on :examiner_name, type: :scope
   filter_on :name, internal_name: :search_by_name, type: :scope
   filter_on :branches_include, type: :scope
   filter_on :in_progress, type: :scope
 
-  sort_on :examiner_id, type: :int
+  sort_on :id, type: :int
+  sort_on :examiner_name, internal_name: :order_on_examiner_name, type: :scope, scope_params: [:direction]
+  sort_on :name, type: :string
   sort_on :start_time, type: :datetime
   sort_on :end_time, type: :datetime
   sort_on :max_grade, type: :decimal
@@ -30,7 +32,7 @@ class ExamsController < ApplicationController
     authorize Exam
     @exams = filtrate(policy_scope(Exam)).page params[:page]
     render json: {
-      exams: ExamBlueprint.render_as_hash(@exams),
+      exams: ExamBlueprint.render_as_hash(@exams, view: :index),
       meta: PaginationBlueprint.render(@exams)
     }, status: :ok
   end

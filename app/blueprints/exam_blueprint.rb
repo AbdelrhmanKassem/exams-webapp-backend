@@ -9,4 +9,11 @@ class ExamBlueprint < Blueprinter::Base
     field :questions
     field :answers
   end
+
+  view :index do
+    excludes :examiner
+    field :examiner_name do |exam|
+      exam.examiner.full_name
+    end
+  end
 end
