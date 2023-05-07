@@ -33,4 +33,5 @@ class Exam < ApplicationRecord
       .select('exams.*, users.full_name AS examiner_name')
       .order("examiner_name #{direction}")
   }
+  scope :search_by_name, ->(name) { where('name ILIKE ?', "%#{name}%") }
 end
