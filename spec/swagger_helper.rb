@@ -113,9 +113,9 @@ RSpec.configure do |config|
                 type: 'object',
                 properties: {
                   name: { type: 'string' },
-                  governorate_id: { type: 'integer' }
+                  governorate: { type: 'string' }
                 },
-                required: %w[name governorate_id]
+                required: %w[name governorate]
               }
             },
             required: %w[district]
@@ -126,6 +126,7 @@ RSpec.configure do |config|
               exam: {
                 type: 'object',
                 properties: {
+                  name: { type: 'string' },
                   start_time: { type: 'string' },
                   end_time: { type: 'string' },
                   max_grade: { type: 'decimal' },
@@ -142,7 +143,7 @@ RSpec.configure do |config|
                   questions: { type: 'string' },
                   answers: { type: 'string' }
                 },
-                required: %w[start_time end_time max_grade branches questions answers]
+                required: %w[name start_time end_time max_grade branches questions answers]
               }
             },
             required: %w[exam]
