@@ -21,6 +21,25 @@ paths:
           description: Return page of branches
         '401':
           description: Failed (No or invalid auth header)
+    post:
+      summary: Create Branch
+      security:
+      - Bearer: []
+      tags:
+      - Branch
+      parameters: []
+      responses:
+        '201 ':
+          description: Success
+        '422':
+          description: Failed (invalid branch data)
+        '401':
+          description: Failed (No auth header or not an admin)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/create_branch_request"
   "/districts":
     get:
       summary: Get Districts
@@ -39,7 +58,7 @@ paths:
         '401':
           description: Failed (No or invalid auth header)
     post:
-      summary: Create Distric
+      summary: Create District
       security:
       - Bearer: []
       tags:
@@ -320,16 +339,13 @@ components:
           properties:
             email:
               type: string
-            first_name:
-              type: string
-            last_name:
+            full_name:
               type: string
             role_id:
               type: integer
           required:
           - email
-          - first_name
-          - last_name
+          - full_name
           - role_id
       required:
       - user
@@ -398,11 +414,11 @@ components:
           properties:
             name:
               type: string
-            governorate_id:
-              type: integer
+            governorate:
+              type: string
           required:
           - name
-          - governorate_id
+          - governorate
       required:
       - district
     create_exam_request:
@@ -411,6 +427,8 @@ components:
         exam:
           type: object
           properties:
+            name:
+              type: string
             start_time:
               type: string
             end_time:
@@ -431,6 +449,7 @@ components:
             answers:
               type: string
           required:
+          - name
           - start_time
           - end_time
           - max_grade
@@ -439,6 +458,18 @@ components:
           - answers
       required:
       - exam
+    create_branch_request:
+      type: object
+      properties:
+        branch:
+          type: object
+          properties:
+            name:
+              type: string
+          required:
+          - name
+      required:
+      - branch
 servers:
 - url: "{defaultHost}"
   variables:
