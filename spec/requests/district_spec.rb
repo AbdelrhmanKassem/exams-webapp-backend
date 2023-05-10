@@ -60,7 +60,7 @@ RSpec.describe 'districts', type: :request do
         end
       end
 
-      post 'Create Distric' do
+      post 'Create District' do
         security [Bearer: []]
         tags 'District'
         consumes 'application/json'
