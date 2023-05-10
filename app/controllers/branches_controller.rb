@@ -21,4 +21,21 @@ class BranchesController < AuthenticatedController
       meta: PaginationBlueprint.render(branches)
     }, status: :ok
   end
+
+  def create
+    authorize Branch
+    branch = Branch.new(branch_params)
+
+    if branch.save
+      render json: BranchBlueprint.render(branch), status: :created
+    else
+      render json: { error: branch.errors.messages }, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def branch_params
+    params.require(:branch).permit(:name)
+  end
 end

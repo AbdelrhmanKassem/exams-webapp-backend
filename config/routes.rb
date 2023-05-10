@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   resources :schools, only: %i[create index]
   resources :students, only: %i[create index]
   resources :roles, only: %i[index]
-  resources :branches, only: %i[index]
+  resources :branches, only: %i[index create]
   resources :districts, only: %i[index create]
   resources :exams, only: %i[index create update show] do
     member do

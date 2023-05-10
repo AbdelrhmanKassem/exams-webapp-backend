@@ -147,6 +147,19 @@ RSpec.configure do |config|
               }
             },
             required: %w[exam]
+          },
+          create_branch_request: {
+            type: 'object',
+            properties: {
+              branch: {
+                type: 'object',
+                properties: {
+                  name: { type: 'string' }
+                },
+                required: %w[name]
+              }
+            },
+            required: %w[branch]
           }
         }
       },
