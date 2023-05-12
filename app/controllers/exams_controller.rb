@@ -19,8 +19,8 @@ class ExamsController < ApplicationController
     exam = Exam.new(exam_params)
     exam.examiner = current_user
     if exam.save
-      branch_params['branches'].each do |branch|
-        ExamBranch.create(branch_id: Integer(branch['id']), exam_id: exam.id)
+      branch_params['branches'].each do |branch_id|
+        ExamBranch.create(branch_id: , exam_id: exam.id)
       end
       render json: ExamBlueprint.render(exam, view: :trusted), status: :created
     else
@@ -85,12 +85,26 @@ class ExamsController < ApplicationController
   end
 
   private
-
   def exam_params
-    params.require(:exam).permit(:name, :start_time, :end_time, :max_grade, :questions, :answers)
+    params.require(:exam).permit(
+      :name,
+      :max_grade,
+      :start_time,
+      :end_time,
+      questions: [:question, choices: []],
+      answers: []
+    )
   end
 
   def branch_params
-    params.require(:exam).permit(branches: ['id'])
+    params.require(:exam).permit(branches: [])
+  end
+
+  def questions_params
+    params.require(:exam).permit(questions)
+  end
+
+  def answers_params
+    params.require(:exam).permit(answers)
   end
 end

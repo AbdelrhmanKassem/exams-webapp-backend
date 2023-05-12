@@ -21,7 +21,10 @@ FactoryBot.define do
     start_time { Faker::Time.between(from: DateTime.now + 6.hours, to: DateTime.now + 12.hours) }
     end_time { Faker::Time.between(from: DateTime.now + 14.hours, to: DateTime.now + 15.hours) }
     max_grade { Faker::Number.between(from: 10, to: 100) }
-    questions { 'Questions Decrypted' }
-    answers { 'Answers Decrypted' }
+    questions { [{'question':'Qes1','choices':['c1','c2','c3','c4']},
+                 {'question':'ques2','choices':['c1','c2','c3','c444']},
+                 {'question':'ques3','choices':['c1','c2','c3','c4','c5555','c6']}] }
+
+    answers { [1, 2, 3] }
   end
 end

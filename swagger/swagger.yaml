@@ -438,12 +438,7 @@ components:
             branches:
               type: array
               items:
-                type: object
-                required:
-                - id
-                properties:
-                  id:
-                    type: integer
+                type: integer
             questions:
               type: string
             answers:

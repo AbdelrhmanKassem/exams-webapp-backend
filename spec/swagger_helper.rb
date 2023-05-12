@@ -133,11 +133,7 @@ RSpec.configure do |config|
                   branches: {
                     type: 'array',
                     items: {
-                      type: 'object',
-                      required: %w[id],
-                      properties: {
-                        id: { type: 'integer' }
-                      }
+                      type: 'integer'
                     }
                   },
                   questions: { type: 'string' },

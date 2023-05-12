@@ -27,9 +27,11 @@ RSpec.describe 'exams', type: :request do
                 max_grade: exam.max_grade,
                 start_time: exam.start_time,
                 end_time: exam.end_time,
-                branches: ["id": branch.id],
-                questions: exam.questions,
-                answers: exam.answers
+                branches: [branch.id],
+                questions: [{'question':'Qes1','choices':['c1','c2','c3','c4']},
+                            {'question':'ques2','choices':['c1','c2','c3','c444']},
+                            {'question':'ques3','choices':['c1','c2','c3','c4','c5555','c6']}],
+                answers: [1,2,3]
               }
             }, headers: headers
             expect(response).to have_http_status(:created)
@@ -50,7 +52,7 @@ RSpec.describe 'exams', type: :request do
             post '/exams', params: {
               exam: {
                 max_grade: exam.max_grade,
-                branches: ["id": branch.id],
+                branches: [branch.id],
                 questions: exam.questions,
                 answers: exam.answers
               }
@@ -74,7 +76,7 @@ RSpec.describe 'exams', type: :request do
                 max_grade: exam.max_grade,
                 start_time: exam.start_time,
                 end_time: exam.end_time,
-                branches: ["id": branch.id],
+                branches: [branch.id],
                 questions: exam.questions,
                 answers: exam.answers
               }
@@ -94,7 +96,7 @@ RSpec.describe 'exams', type: :request do
                 max_grade: exam.max_grade,
                 start_time: exam.start_time,
                 end_time: exam.end_time,
-                branches: ["id": branch.id],
+                branches: [branch.id],
                 questions: exam.questions,
                 answers: exam.answers
               }
@@ -228,18 +230,16 @@ RSpec.describe 'exams', type: :request do
             examiner = FactoryBot.create(:examiner_user)
             token = Devise::JWT::TestHelpers.auth_headers('Authorization', examiner)
             put "/exams/#{exam.id}",
-                params:
-                {
-                  name: 'Tobbie',
-                  category: 'category 1',
-                  html: '<body><h1>Hello world</h1></body>',
-                  css: "* {color: 'red'}",
-                  variables: {
-                    template_vars1: 'val1',
-                    template_vars2: 'val2'
-                  }
-                },
-                headers: { Authorization: token }
+            params: {
+              exam: {
+                max_grade: exam.max_grade,
+                start_time: exam.start_time,
+                end_time: exam.end_time,
+                questions: exam.questions,
+                answers: exam.answers
+              }
+            },
+            headers: { Authorization: token }
             expect(response).to have_http_status(:unauthorized)
             expect(response.parsed_body['error']).to eq(I18n.t('errors.authorization'))
             expect(response.content_type).to include('application/json')
