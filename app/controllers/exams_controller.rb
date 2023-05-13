@@ -55,8 +55,8 @@ class ExamsController < ApplicationController
     end
     authorize exam
     if exam.update(exam_params)
-      branch_params['branches']&.each do |branch|
-        ExamBranch.create(branch_id: branch['branch_id'], exam_id: exam.id)
+      branch_params['branches'].each do |branch_id|
+        ExamBranch.create(branch_id: , exam_id: exam.id)
       end
       render json: ExamBlueprint.render(exam, view: :trusted), status: :ok
     else

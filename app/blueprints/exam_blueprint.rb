@@ -6,7 +6,13 @@ class ExamBlueprint < Blueprinter::Base
   association :branches, blueprint: BranchBlueprint
 
   view :trusted do
-    field :questions
+    excludes :branches
+    field :branch_ids do |exam|
+      exam.branches.map(&:id)
+    end
+    field :questions do |exam|
+      exam.questions.gsub("=>", ":").gsub("'", "\"")
+    end
     field :answers
   end
 
