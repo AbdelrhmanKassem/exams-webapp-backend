@@ -18,8 +18,8 @@ FactoryBot.define do
     factory :exam_with_branches, parent: :exam do
       branches { create_list :branch, 1 }
     end
-    start_time { Faker::Time.between(from: DateTime.now + 6.hours, to: DateTime.now + 12.hours) }
-    end_time { Faker::Time.between(from: DateTime.now + 14.hours, to: DateTime.now + 15.hours) }
+    start_time { Faker::Time.between(from: DateTime.now + 28.hours, to: DateTime.now + 30.hours) }
+    end_time { Faker::Time.between(from: DateTime.now + 32.hours, to: DateTime.now + 35.hours) }
     max_grade { Faker::Number.between(from: 10, to: 100) }
     questions { [{'question':'Qes1','choices':['c1','c2','c3','c4']},
                  {'question':'ques2','choices':['c1','c2','c3','c444']},

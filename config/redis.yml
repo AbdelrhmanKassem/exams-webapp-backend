@@ -1,0 +1,14 @@
+development:
+  port: <%= ENV["DEVELOPMENT_REDIS_PORT"] %>
+  host: <%= ENV["DEVELOPMENT_REDIS_HOST"] %>
+  url: <%= ENV['DEVELOPMENT_REDIS_URL'] %>
+  db: <%= ENV.fetch("DEVELOPMENT_REDIS_DATABASE", 0) %>
+production:
+  port: <%= ENV["PRODUCTION_REDIS_PORT"] %>
+  host: <%= ENV["PRODUCTION_REDIS_HOST"] %>
+  url: <%= ENV['PRODUCTION_REDIS_URL'] %>
+  db: <%= ENV.fetch("PRODUCTION_REDIS_DATABASE", 0) %>
+test:
+  port: <%= ENV["TEST_REDIS_PORT"] %>
+  host: <%= ENV["TEST_REDIS_HOST"] %>
+  db: <%= ENV.fetch("TEST_REDIS_DATABASE", 1) %>

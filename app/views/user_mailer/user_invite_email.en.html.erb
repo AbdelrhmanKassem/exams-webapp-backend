@@ -1,5 +1,7 @@
 <p>Welcome to Exams!</p>
 
-<p>You have been invited to join the us by the Administrator.</p>
+<p>You have been invited to join us by the Administrator.</p>
 
-<p>Please use this token <%= @token %> to accept the invitation and join us.</p>
+<p>Please <%= link_to "Click Here", "#{AppConfig.client_url}/accept-invite?token=#{@token}" %> to accept the invitation and join us.</p>
+
+<p>Or you can go to this link instead <%= "#{AppConfig.client_url}/accept-invite?token=#{@token}" %>.</p>

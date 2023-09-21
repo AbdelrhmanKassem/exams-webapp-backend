@@ -35,6 +35,7 @@ en:
     invitation_accepted: "You have successfully accepted you invitation, you can login now"
     exam:
       not_found: "No exam found for this ID"
+      cannot_update: "You cannot update this exam, Start date is today"
       too_early: "It's too early to send this exam, try again later."
       too_late: "It's too late to send this exam, it has already ended."
       too_late_to_start: "It's too late to send this exam, 15 minutes have passed since it has started."
@@ -48,5 +49,6 @@ en:
       hi: "Hi %{name},"
     footer:
       greetings: "Thank You,"
+      team_name: "Exams Team"
     subject:
       invitation: "Exams - Welcome to Exams"

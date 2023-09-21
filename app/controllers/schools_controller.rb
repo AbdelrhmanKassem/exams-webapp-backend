@@ -33,6 +33,20 @@ class SchoolsController < AuthenticatedController
     end
   end
 
+  def destroy
+    authorize School
+    school = School.find_by(id: params[:id])
+    if school.nil?
+      render json: { error: I18n.t('messages.school.not_found') }, status: :not_found
+      return
+    end
+    if school.destroy
+      render json: {}, status: :ok
+    else
+      render json: { error: school.errors.messages }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def school_params

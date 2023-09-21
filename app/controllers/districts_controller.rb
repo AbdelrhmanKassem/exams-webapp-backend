@@ -32,6 +32,27 @@ class DistrictsController < AuthenticatedController
     end
   end
 
+  def list
+    authorize District
+    render json: {
+      districts: DistrictBlueprint.render_as_hash(District.all, view: :list),
+    }, status: :ok
+  end
+
+  def destroy
+    authorize District
+    district = District.find_by(id: params[:id])
+    if district.nil?
+      render json: { error: I18n.t('messages.district.not_found') }, status: :not_found
+      return
+    end
+    if district.destroy
+      render json: {}, status: :ok
+    else
+      render json: { error: district.errors.messages }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def district_params

@@ -8,4 +8,14 @@ class DistrictBlueprint < Blueprinter::Base
       district.schools.count
     end
   end
+
+  view :list do
+    excludes :id, :name, :governorate
+    field :value do |district|
+      district.id
+    end
+    field :label do |district|
+      district.name
+    end
+  end
 end

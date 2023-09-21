@@ -26,6 +26,7 @@ class Exam < ApplicationRecord
 
   scope :branches_include, ->(id) { joins(:exam_branches).where('exam_branches.branch_id = ?', id) }
   scope :in_progress, -> { where('start_time <= ? AND end_time >= ?', Time.current, Time.current) }
+  scope :started_today, -> { where('start_time >= ? AND start_time < ?', Time.current.beginning_of_day, Time.current.end_of_day) }
   scope :examiner_name, ->(name) { joins(:examiner).where('users.full_name = ?', name) }
 
   scope :order_on_examiner_name, lambda { |direction|

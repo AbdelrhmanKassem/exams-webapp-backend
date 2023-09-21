@@ -6,4 +6,13 @@ class StudentPolicy < ApplicationPolicy
   def index?
     admin?
   end
+
+  def bulk_upload?
+    admin?
+  end
+
+  def destroy?
+    admin?
+  end
+
 end

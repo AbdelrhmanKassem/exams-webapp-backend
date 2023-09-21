@@ -57,6 +57,20 @@ class UsersController < AuthenticatedController
     end
   end
 
+  def destroy
+    authorize User
+    user = User.find_by(id: params[:id])
+    if user.nil?
+      render json: { error: I18n.t('messages.user.not_found') }, status: :not_found
+      return
+    end
+    if user.destroy
+      render json: {}, status: :ok
+    else
+      render json: { error: user.errors.messages }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def user_params

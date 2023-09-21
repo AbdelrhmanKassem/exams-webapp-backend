@@ -6,4 +6,12 @@ class DistrictPolicy < ApplicationPolicy
   def create?
     admin?
   end
+
+  def list?
+    admin? || examiner?
+  end
+
+  def destroy?
+    admin?
+  end
 end

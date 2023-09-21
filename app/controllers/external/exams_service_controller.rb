@@ -1,6 +1,6 @@
 module External
-  class ExamServiceController < ApplicationController
-    before_action :validate_request, :authenticate_exam_service_request
+  class ExamsServiceController < ApplicationController
+    before_action :validate_request, :authenticate_exams_service_request
 
     def exam
       exam = Exam.find_by(id: params[:id])
@@ -9,6 +9,10 @@ module External
         return
       end
       render json: ExamBlueprint.render(exam, view: :trusted), status: :ok if valid_exam_time(exam)
+    end
+
+    def today_exams
+      render json: ExamBlueprint.render_as_hash(Exam.started_today, view: :trusted), status: :ok
     end
 
     private
@@ -26,7 +30,7 @@ module External
       false
     end
 
-    def authenticate_exam_service_request
+    def authenticate_exams_service_request
       api_key_validator = SimpleStructuredSecrets.new('E', 's')
       unauthorized unless
         api_key_validator.validate(api_key_header) &&

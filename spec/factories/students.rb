@@ -10,7 +10,7 @@
 #
 FactoryBot.define do
   factory :student do
-    full_name { Faker::Alphanumeric.alpha(number: rand(5..24)) }
+    full_name { Faker::Name.name }
     email { Faker::Internet.unique.safe_email }
     branch
     seat_number { Faker::Number.number(digits: 10) }

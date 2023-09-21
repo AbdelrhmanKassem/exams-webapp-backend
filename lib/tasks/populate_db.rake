@@ -3,10 +3,10 @@ namespace :db do
   desc 'Populate database with seed data'
   task populate: :environment do
     students_per_school = ARGV[0].to_i
-    20.times do
+    27.times do
       governorate = Faker::Nation.unique.capital_city
 
-      5.times do
+      10.times do
         district = FactoryBot.create(:district, governorate:)
 
         10.times do

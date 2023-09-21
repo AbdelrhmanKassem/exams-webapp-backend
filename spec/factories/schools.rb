@@ -8,7 +8,7 @@
 #
 FactoryBot.define do
   factory :school do
-    name { Faker::Alphanumeric.alpha(number: rand(5..8)) }
+    name { Faker::Educator.secondary_school }
     district
   end
 end

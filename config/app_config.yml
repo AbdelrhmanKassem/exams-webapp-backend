@@ -1,5 +1,6 @@
 development:
   client_url: <%= ENV['DEVELOPMENT_CLIENT_URL'] %>
+  exams_service_url: <%= ENV['DEVELOPMENT_EXAMS_SERVICE_URL'] %>
   server: 
     host: <%= ENV['DEVELOPMENT_SERVER_HOST'] %>
     protocol: <%= ENV['DEVELOPMENT_SERVER_PROTOCOL'] %>
@@ -7,6 +8,7 @@ development:
 
 production:
   client_url: <%= ENV['PRODUCTION_CLIENT_URL'] %>
+  exams_service_url: <%= ENV['PRODUCTION_EXAMS_SERVICE_URL'] %>
   server: 
     host: <%= ENV['PRODUCTION_SERVER_HOST'] %>
     protocol: <%= ENV['PRODUCTION_SERVER_PROTOCOL'] %>
@@ -15,6 +17,7 @@ production:
 
 test:
   client_url: <%= ENV['TEST_CLIENT_URL'] %>
+  exams_service_url: <%= ENV['TEST_EXAMS_SERVICE_URL'] %>
   server:
     host: <%= ENV['TEST_SERVER_HOST'] %>
     protocol: <%= ENV['TEST_SERVER_PROTOCOL'] %>

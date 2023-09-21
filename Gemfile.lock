@@ -80,6 +80,7 @@ GEM
     composite_primary_keys (14.0.4)
       activerecord (~> 7.0.2)
     concurrent-ruby (1.1.10)
+    connection_pool (2.4.1)
     crass (1.0.6)
     debug (1.6.2)
       irb (>= 1.3.6)
@@ -220,6 +221,26 @@ GEM
       activerecord (>= 6.1.5)
       activesupport (>= 6.1.5)
       i18n
+    redis (5.0.6)
+      redis-client (>= 0.9.0)
+    redis-actionpack (5.3.0)
+      actionpack (>= 5, < 8)
+      redis-rack (>= 2.1.0, < 3)
+      redis-store (>= 1.1.0, < 2)
+    redis-activesupport (5.3.0)
+      activesupport (>= 3, < 8)
+      redis-store (>= 1.3, < 2)
+    redis-client (0.14.1)
+      connection_pool
+    redis-rack (2.1.4)
+      rack (>= 2.0.8, < 3)
+      redis-store (>= 1.2, < 2)
+    redis-rails (5.0.2)
+      redis-actionpack (>= 5.0, < 6)
+      redis-activesupport (>= 5.0, < 6)
+      redis-store (>= 1.2, < 2)
+    redis-store (1.9.2)
+      redis (>= 4, < 6)
     reline (0.3.1)
       io-console (~> 0.5)
     responders (3.0.1)
@@ -263,6 +284,13 @@ GEM
     rubyzip (2.3.2)
     shoulda-matchers (5.2.0)
       activesupport (>= 5.2.0)
+    sidekiq (7.1.2)
+      concurrent-ruby (< 2)
+      connection_pool (>= 2.3.0)
+      rack (>= 2.2.4)
+      redis-client (>= 0.14.0)
+    sidekiq-batch (0.1.9)
+      sidekiq (>= 3)
     sssecrets (1.0.0)
     thor (1.2.1)
     timeliness (0.4.4)
@@ -315,6 +343,8 @@ DEPENDENCIES
   rack-cors
   rails (~> 7.0.4)
   ransack
+  redis
+  redis-rails
   rqrcode
   rspec-rails
   rswag
@@ -322,6 +352,8 @@ DEPENDENCIES
   rswag-ui
   rubyzip
   shoulda-matchers (~> 5.0)
+  sidekiq
+  sidekiq-batch
   sssecrets
   tzinfo-data
   validates_timeliness (~> 7.0.0.beta1)

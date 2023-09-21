@@ -52,14 +52,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_05_173913) do
     t.index ["examiner_id"], name: "index_exams_on_examiner_id"
   end
 
-  create_table "grades", primary_key: ["student_seat_number", "exam_id"], force: :cascade do |t|
-    t.bigint "student_seat_number", null: false
-    t.bigint "exam_id", null: false
-    t.decimal "mark", null: false
-    t.index ["exam_id"], name: "index_grades_on_exam_id"
-    t.index ["student_seat_number"], name: "index_grades_on_student_seat_number"
-  end
-
   create_table "password_reset_tokens", primary_key: "user_id", force: :cascade do |t|
     t.string "token_hash", null: false
     t.index ["token_hash"], name: "index_password_reset_tokens_on_token_hash"
@@ -97,16 +89,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_05_173913) do
   end
 
   add_foreign_key "cheat_cases", "exams"
-  add_foreign_key "cheat_cases", "students", column: "student_seat_number", primary_key: "seat_number"
+  add_foreign_key "cheat_cases", "students", column: "student_seat_number", primary_key: "seat_number", on_delete: :cascade
   add_foreign_key "cheat_cases", "users", column: "proctor_id"
-  add_foreign_key "exam_branches", "branches"
-  add_foreign_key "exam_branches", "exams"
-  add_foreign_key "exams", "users", column: "examiner_id"
-  add_foreign_key "grades", "exams"
-  add_foreign_key "grades", "students", column: "student_seat_number", primary_key: "seat_number"
-  add_foreign_key "password_reset_tokens", "users"
-  add_foreign_key "schools", "districts"
-  add_foreign_key "students", "branches"
-  add_foreign_key "students", "schools"
+  add_foreign_key "exam_branches", "branches", on_delete: :cascade
+  add_foreign_key "exam_branches", "exams", on_delete: :cascade
+  add_foreign_key "exams", "users", column: "examiner_id", on_delete: :cascade
+  add_foreign_key "password_reset_tokens", "users", on_delete: :cascade
+  add_foreign_key "schools", "districts", on_delete: :cascade
+  add_foreign_key "students", "branches", on_delete: :cascade
+  add_foreign_key "students", "schools", on_delete: :cascade
   add_foreign_key "users", "roles"
 end

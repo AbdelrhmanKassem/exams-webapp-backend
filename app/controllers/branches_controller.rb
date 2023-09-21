@@ -33,6 +33,20 @@ class BranchesController < AuthenticatedController
     end
   end
 
+  def destroy
+    authorize Branch
+    branch = Branch.find_by(id: params[:id])
+    if branch.nil?
+      render json: { error: I18n.t('messages.branch.not_found') }, status: :not_found
+      return
+    end
+    if branch.destroy
+      render json: {}, status: :ok
+    else
+      render json: { error: branch.errors.messages }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def branch_params

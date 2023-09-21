@@ -53,20 +53,27 @@ class ExamsController < ApplicationController
       render json: { error: I18n.t('messages.exam.not_found') }, status: :not_found if exam.nil?
       return
     end
+    if exam.start_time.present? && exam.start_time.today?
+      render json: { error: I18n.t('messages.exam.cannot_update') }, status: :unprocessable_entity
+      return
+    end
     authorize exam
     if exam.update(exam_params)
-      branch_params['branches'].each do |branch_id|
-        ExamBranch.create(branch_id: , exam_id: exam.id)
+      if branch_params.present? && branch_params['branches'].present?
+        branch_params['branches'].each do |branch_id|
+          ExamBranch.create(branch_id: , exam_id: exam.id)
+        end
       end
       render json: ExamBlueprint.render(exam, view: :trusted), status: :ok
     else
-      render json: exam.errors, status: :unprocessable_entity
+      render json: { error: exam.errors.messages }, status: :unprocessable_entity
     end
   end
 
   def generate_qr_codes
     exam = Exam.find_by(id: params[:id])
-    if exam.nil?
+    district = District.find_by(id: params[:district_id])
+    if exam.nil? || district.nil?
       render json: { error: I18n.t('messages.exam.not_found') }, status: :not_found if exam.nil?
       return
     end
@@ -75,16 +82,40 @@ class ExamsController < ApplicationController
     response.headers['Content-Type'] = 'application/zip'
     response.headers['Content-Disposition'] = `attachment; filename="qr_codes_exam_#{exam.id}.zip"`
 
-    qr_generator = QrCodeGenerator.new(exam)
-    temp_file = qr_generator.generate_qr_codes
-    temp_file.rewind
-    send_data temp_file.read, type: 'application/zip', disposition: 'attachment', filename: "qr_codes_exam_#{exam.id}.zip"
+    qr_generator = QrCodeGenerator.new(exam, district)
+    zip_file_path = qr_generator.generate_qr_codes
 
-    temp_file.close
-    temp_file.unlink
+    File.open(zip_file_path, 'r') do |f|
+      send_data zip_file_path.read, type: 'application/zip', disposition: 'attachment'
+    end
+    File.delete(zip_file_path)
+  end
+
+  def in_progress
+    authorize Exam
+    render json: { exams: ExamBlueprint.render_as_hash(Exam.started_today, view: :index) }, status: :ok
+  end
+
+  def destroy
+    exam = Exam.find_by(id: params[:id])
+    if exam.nil?
+      render json: { error: I18n.t('messages.exam.not_found') }, status: :not_found if exam.nil?
+      return
+    end
+    authorize exam
+    if exam.start_time.present? && exam.start_time.today?
+      render json: { error: I18n.t('messages.exam.cannot_delete') }, status: :unprocessable_entity
+      return
+    end
+    if exam.destroy
+      render json: {}, status: :ok
+    else
+      render json: { error: exam.errors.messages }, status: :unprocessable_entity
+    end
   end
 
   private
+
   def exam_params
     params.require(:exam).permit(
       :name,

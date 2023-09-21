@@ -2,6 +2,7 @@ version: '3.5'
 
 services:
   exams_backend:
+    &exams_backend
     build: .
     image: exams-backend
     container_name: exams-backend
@@ -37,9 +38,35 @@ services:
       POSTGRES_PASSWORD: exams
     volumes:
       - exams_backend_development:/var/lib/postgresql/data/
+
+  redis:
+    image: redis:7-alpine
+    container_name: exams_redis
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    env_file: .env
+    networks:
+      - exams
+
+
+  worker:
+    <<: *exams_backend
+    container_name: exams-worker
+    command: bundle exec sidekiq
+    depends_on:
+      - exams_backend
+      - postgresql
+      - redis
+    ports: []
+    entrypoint: ""
+
 volumes:
   exams_backend_development:
   bundle:
+  redis_data:
+
 networks:
   exams:
     name: exams

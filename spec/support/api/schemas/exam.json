@@ -1,5 +1,5 @@
 {
-  "required": ["id", "name", "examiner", "start_time", "end_time", "max_grade", "branches", "questions", "answers"],
+  "required": ["id", "name", "examiner", "start_time", "end_time", "max_grade", "branch_ids", "questions", "answers"],
   "type": "object",
   "properties": {
       "id": {"type":"integer"},
@@ -8,9 +8,9 @@
       "start_time": {"type": "string"},
       "end_time": {"type": "string"},
       "max_grade": {"type": "decimal"},
-      "branches": {
+      "branch_ids": {
           "type": "array",
-          "items": {"$ref": "branch.json"}
+          "items": {"type": "integer"}
       },
       "questions": {"type":"string"},
       "answers": {"type":"string"}

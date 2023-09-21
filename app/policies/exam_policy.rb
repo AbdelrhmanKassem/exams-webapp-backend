@@ -30,4 +30,13 @@ class ExamPolicy < ApplicationPolicy
   def generate_qr_codes?
     admin?
   end
+
+  def in_progress?
+    proctor?
+  end
+
+  def destroy?
+    admin? || (examiner? && record.examiner == user)
+  end
+
 end
